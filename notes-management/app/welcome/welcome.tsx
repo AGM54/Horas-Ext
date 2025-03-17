@@ -1,3 +1,4 @@
+import Text from "~/components/Text";
 import logoDark from "./logo-dark.svg";
 import logoLight from "./logo-light.svg";
 
@@ -41,6 +42,7 @@ export function Welcome() {
             </ul>
           </nav>
         </div>
+        <Text variant={"H1"}>Hello i am a text component test</Text>
       </div>
     </main>
   );

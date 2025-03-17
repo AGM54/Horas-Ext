@@ -7,16 +7,18 @@ import { Letters } from "./typography";
 // Get scaling function (safe outside React components)
 const { scale } = getDeviceScaling(typeof window !== "undefined" ? window.innerWidth : 1024);
 
-export interface Theme {
+export interface AppTheme {
     colors: Colors;
     sizes: sizes;
     scale: (value: number, factor?: number) => number;
     typography: Typography;
 }
 
-export const MainTheme: Theme = {
+export const MainTheme: AppTheme = {
     colors: defaultColors,
     sizes: Sizes,
     scale,
     typography: Letters
 };
+
+export * from '../types'
