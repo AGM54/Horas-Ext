@@ -6,7 +6,9 @@ import {
   Scripts,
   ScrollRestoration,
 } from "react-router";
-
+import { Provider } from 'react-redux';
+import { PersistGate } from 'redux-persist/integration/react';
+import { store, persistor } from './store/store';
 import type { Route } from "./+types/root";
 import "./app.css";
 import { ThemeProvider } from "@emotion/react";
@@ -35,11 +37,15 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <Links />
       </head>
       <body>
-        <ThemeProvider theme={MainTheme}>
-        {children}
-        <ScrollRestoration />
-        <Scripts />
-        </ThemeProvider>
+        <Provider store={store}>
+          <PersistGate loading={null} persistor={persistor}>
+            <ThemeProvider theme={MainTheme}>
+              {children}
+              <ScrollRestoration />
+              <Scripts />
+            </ThemeProvider>
+          </PersistGate>
+        </Provider>
       </body>
     </html>
   );
