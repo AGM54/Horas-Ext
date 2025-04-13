@@ -14,7 +14,11 @@ export default function LoginPage() {
       email: "test@example.com",
     };
     dispatch(login({ user: mockUser, token: "mock-token" }));
-    navigate("dashboard", { replace: true });
+    navigate("/dashboard/cursos", { replace: true });
+
+
+
+
   };
 
   return (
