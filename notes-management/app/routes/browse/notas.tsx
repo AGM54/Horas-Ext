@@ -2,7 +2,7 @@ import { useState } from "react";
 import { ChevronDown, PencilLine, PlusCircle } from "lucide-react";
 import Text from "../../../src/components/atoms/Text";
 import Button from "../../../src/components/atoms/Button";
-import { defaultColors } from "../../../app/theme/src/colors";
+import { defaultColors } from "~/theme/src/colors";
 
 export default function NotasPage() {
   const cursos = ["Matemáticas", "Historia", "Física", "Programación"];
@@ -10,18 +10,18 @@ export default function NotasPage() {
   const [menuAbierto, setMenuAbierto] = useState(false);
 
   return (
-    <div className="flex min-h-screen" style={{ backgroundColor: defaultColors.darkBlueBg }}>
+    <div className="flex min-h-screen" style={{ backgroundColor: "#203d5e" }}>
       <div className="flex-1 text-white p-8">
         {/* Header */}
         <div className="flex justify-between items-center mb-4">
           <Text variant="H3">Notas</Text>
           <div className="flex gap-4">
             <Button variant="secondary" className="flex items-center gap-2">
-              <PencilLine className="h-4 w-4 text-white" />
+              <PencilLine className="h-4 w-4" style={{ color: defaultColors.primaryDark }} />
               Editar Notas
             </Button>
             <Button variant="secondary" className="flex items-center gap-2">
-              <PlusCircle className="h-4 w-4 text-white" />
+              <PlusCircle className="h-4 w-4" style={{ color: defaultColors.primaryDark }} />
               Nueva Actividad
             </Button>
           </div>
@@ -32,7 +32,7 @@ export default function NotasPage() {
           <Text
             variant="body"
             className="text-lg font-semibold"
-            style={{ color: defaultColors.primaryDark }}
+            style={{ color: defaultColors.white }}
           >
             Curso:
           </Text>
