@@ -8,8 +8,8 @@ export default function DashboardLayout() {
     <div className="flex min-h-screen">
       <Sidebar />
       <main
-        className="flex-1 p-6 text-white"
-        style={{ backgroundColor: defaultColors.darkBlueBg }}
+        className="flex-1 text-white"
+        style={{ backgroundColor: defaultColors.primaryDark}}
       >
         <Outlet />
       </main>

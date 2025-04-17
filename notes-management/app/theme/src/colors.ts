@@ -15,5 +15,6 @@ export const defaultColors : Colors  = {
     G5: "#797B80",
     G6: "#66686B",
     G7: "#525457",
-    G8: "#46484A"
+    G8: "#46484A",
+    white: "#FFFFFF",
 }

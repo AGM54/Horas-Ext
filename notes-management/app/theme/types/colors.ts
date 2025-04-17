@@ -8,11 +8,7 @@ export interface Colors {
     // secondary
     orange: string;
     yellow: string;
-  
-    // base/backgrounds
-    white: string;      
-    darkBlueBg: string;   
-  
+
     // greys
     G0: string;
     G1: string;
@@ -23,5 +19,8 @@ export interface Colors {
     G6: string;
     G7: string;
     G8: string;
+
+    //extras
+    white:string
   }
   
