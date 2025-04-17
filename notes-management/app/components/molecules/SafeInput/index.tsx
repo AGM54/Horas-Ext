@@ -1,5 +1,5 @@
 import { useState } from "react";
-import Input from "../atoms/Input";
+import Input from "../../../app/components/atoms/Input";
 
 export default function PasswordInput(props: React.InputHTMLAttributes<HTMLInputElement>) {
   const [show, setShow] = useState(false);

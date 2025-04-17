@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Text from "../atoms/Text";
 import Button from "../atoms/Button";
-import Input from "../atoms/Input";
+import Input from "../../../app/components/atoms/Input";
 import { defaultColors } from "../../../app/theme/src/colors";
 
 interface FormNuevoCursoProps {
