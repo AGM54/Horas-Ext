@@ -2,11 +2,10 @@
 import { type RouteConfig, route } from "@react-router/dev/routes";
 
 export default [
-
   route("/", "routes/auth/login.tsx"),
 
   route("dashboard", "routes/browse/index.tsx", [
     route("cursos", "routes/browse/cursos.tsx"),
-   
+    route("notas", "routes/browse/notas.tsx"),  
   ]),
 ] satisfies RouteConfig;
