@@ -1,4 +1,3 @@
-
 import { defaultColors } from "../../../app/theme/src/colors";
 import Text from "../atoms/Text";
 import FormNuevoCurso from "../molecules/FormNuevoCurso";
@@ -10,12 +9,12 @@ interface Props {
 
 export default function ModalNuevoCurso({ onClose, onCrear }: Props) {
   return (
-    <div className="fixed inset-0 bg-transparent flex items-center justify-center z-50">
+    <div className="fixed inset-0 flex items-center justify-center z-50 pointer-events-auto">
       <div
         className="rounded-xl shadow-lg w-full max-w-md p-6 relative"
         style={{
-          backgroundColor: defaultColors.white, // Cuadro blanco
-          boxShadow: "0 4px 20px rgba(0, 0, 0, 0.15)" // sombra sutil
+          backgroundColor: "#FFFFFF", 
+          boxShadow: "0 4px 20px rgba(0, 0, 0, 0.15)",
         }}
       >
         {/* Botón de cerrar */}
