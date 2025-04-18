@@ -12,9 +12,7 @@ import ModalNuevoCurso from "./molecules/ModalNuevoCurso";
 import ModalNuevaSeccion from "./molecules/ModalNuevaSeccion";
 
 // Organisms
-import Sidebar from "./organisms/SideBar";
 import CursosGrid from "./organisms/CursosGrid";
-import ProtectedRoute from "./organisms/ProtectedRoute";
 
 // Export individual components
 export * from "./atoms/Text";
@@ -28,9 +26,9 @@ export * from "./molecules/SafeInput";
 export * from "./molecules/ModalNuevoCurso";
 export * from "./molecules/ModalNuevaSeccion";
 
-export * from "./organisms/SideBar";
+
 export * from "./organisms/CursosGrid";
-export * from "./organisms/ProtectedRoute";
+
 
 // Export default object with all components
 export default {
@@ -48,7 +46,5 @@ export default {
   ModalNuevaSeccion,
   
   // Organisms
-  Sidebar,
   CursosGrid,
-  ProtectedRoute
 };

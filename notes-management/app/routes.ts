@@ -1,11 +1,9 @@
-// app/routes.ts
-import { type RouteConfig, route } from "@react-router/dev/routes";
+// this is the main routing configuration for the whole app
+import { type RouteConfig } from "@react-router/dev/routes";
+import authRoutes from "./modules/auth/navigation/routes";
+import browseRoutes from "./modules/browse/navigation/routes";
 
 export default [
-  route("/", "routes/auth/login.tsx"),
-
-  route("dashboard", "routes/browse/index.tsx", [
-    route("cursos", "routes/browse/cursos.tsx"),
-    route("notas", "routes/browse/notas.tsx"),  
-  ]),
+ ...authRoutes,
+  browseRoutes
 ] satisfies RouteConfig;
