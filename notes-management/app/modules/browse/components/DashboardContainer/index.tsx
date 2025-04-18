@@ -7,11 +7,9 @@ import ProtectedRoute from "../ProtectedRoute";
 export default function DashboardContainer() {
   return (
     <ProtectedRoute>
-      <div className="flex min-h-screen">
+      <div className="flex">
         <Sidebar />
-        <MainWrapper>
-          <Outlet />
-        </MainWrapper>
+        <Outlet />
       </div>
     </ProtectedRoute>
     

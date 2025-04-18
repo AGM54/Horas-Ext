@@ -11,8 +11,8 @@ export default function NotasPage() {
   const [menuAbierto, setMenuAbierto] = useState(false);
 
   return (
-    <div className="flex min-h-screen" style={{ backgroundColor: "#203d5e" }}>
-      <div className="flex-1 text-white p-8">
+    <div className="flex flex-col w-full h-full">
+      <div className="flex-1 bg-[#203d5e]  text-white p-6 relative  h-full w-full">
         {/* Header */}
         <div className="flex justify-between items-center mb-4">
           <Text variant="H3">Notas</Text>

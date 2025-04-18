@@ -14,8 +14,8 @@ export default function CursosPage() {
   };
 
   return (
-    <div className="flex min-h-screen">
-      <div className="flex-1 bg-[#203d5e] text-white p-6 relative">
+    <div className="flex flex-col w-full h-full">
+      <div className="flex-1 bg-[#203d5e] text-white p-6 relative  h-full w-full">
         {/* Header */}
         <div className="flex items-center justify-between mb-6">
           <div className="flex items-center gap-6">

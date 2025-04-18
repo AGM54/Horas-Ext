@@ -23,7 +23,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <Meta />
         <Links />
       </head>
-      <body>
+      <body style={{backgroundColor: MainTheme.colors.primaryDark}}>
         <Provider store={store}>
             <ThemeProvider theme={MainTheme}>
               {children}

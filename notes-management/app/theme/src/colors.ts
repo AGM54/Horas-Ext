@@ -2,7 +2,7 @@ import type { Colors } from "../types";
 
 export const defaultColors : Colors  = {
     primary: "#275C91",
-    primaryDark: "#2A3E52",
+    primaryDark: "#203d5e",
     primaryLight: "#A6CFF7",
     primaryLighter: "#C4E2FF",
     orange: "#FFA64D",
