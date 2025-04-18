@@ -1,10 +1,8 @@
 import { useState } from "react";
-import Text from "../../../src/components/atoms/Text";
-import CursosGrid from "../../../src/components/organisms/CursosGrid";
-import ModalNuevaSeccion from "../../../src/components/organisms/ModalNuevaSeccion";
-import ModalNuevoCurso from "../../../src/components/organisms/ModalNuevoCurso";
-import Button from "../../../src/components/atoms/Button";
-import { defaultColors } from "../../../app/theme/src/colors";
+import components from "~/components";
+import { defaultColors } from "~/theme/src/colors";
+
+const { Text, CursosGrid, ModalNuevaSeccion, ModalNuevoCurso, Button } = components;
 
 export default function CursosPage() {
   const [modalSeccionAbierto, setModalSeccionAbierto] = useState(false);

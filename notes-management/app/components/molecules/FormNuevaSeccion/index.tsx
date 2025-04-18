@@ -1,6 +1,6 @@
-import { defaultColors } from "../../../app/theme/src/colors";
-import Text from "../atoms/Text";
-import Button from "../atoms/Button";
+import Text from "../../atoms/Text";
+import Button from "../../atoms/Button";
+import { defaultColors } from "@theme/src/colors";
 
 export default function NuevaSeccionForm() {
   return (

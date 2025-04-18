@@ -1,4 +1,4 @@
-import CursoCard from "../../../app/components/molecules/CursoCard";
+import CursoCard from "../../molecules/CursoCard";
 
 const mockCursos = [
   { id: 1, nombre: "Curso de Matemáticas" },

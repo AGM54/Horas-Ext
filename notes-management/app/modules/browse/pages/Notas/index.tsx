@@ -1,8 +1,9 @@
 import { useState } from "react";
 import { ChevronDown, PencilLine, PlusCircle } from "lucide-react";
-import Text from "../../../src/components/atoms/Text";
-import Button from "../../../src/components/atoms/Button";
+import components from "~/components";
 import { defaultColors } from "~/theme/src/colors";
+
+const { Text, Button } = components;
 
 export default function NotasPage() {
   const cursos = ["Matemáticas", "Historia", "Física", "Programación"];
@@ -31,8 +32,6 @@ export default function NotasPage() {
         <div className="mb-6">
           <Text
             variant="body"
-            className="text-lg font-semibold"
-            style={{ color: defaultColors.white }}
           >
             Curso:
           </Text>

@@ -1,10 +1,11 @@
 // src/components/molecules/FormNuevoCurso.tsx
 
 import { useState } from "react";
-import Text from "../atoms/Text";
-import Button from "../atoms/Button";
-import Input from "../../../app/components/atoms/Input";
-import { defaultColors } from "../../../app/theme/src/colors";
+import Text from "../../atoms/Text";
+import Button from "../../atoms/Button";
+import Input from "../../atoms/Input";
+import { useTheme } from "@emotion/react";
+
 
 interface FormNuevoCursoProps {
   onCrear: (curso: { nombre: string; grado: string; bimestres: string }) => void;
@@ -14,7 +15,7 @@ export default function FormNuevoCurso({ onCrear }: FormNuevoCursoProps) {
   const [nombre, setNombre] = useState("");
   const [grado, setGrado] = useState("");
   const [bimestres, setBimestres] = useState("");
-
+  const theme = useTheme()
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!nombre || !grado || !bimestres) return;
@@ -29,7 +30,7 @@ export default function FormNuevoCurso({ onCrear }: FormNuevoCursoProps) {
     <form onSubmit={handleSubmit} className="space-y-4">
       {/* Nombre */}
       <label className="block">
-        <Text variant="body" style={{ color: defaultColors.primaryDark }}>
+        <Text variant="body" style={{ color: theme.colors.primaryDark }}>
           Nombre
         </Text>
         <Input
@@ -39,23 +40,23 @@ export default function FormNuevoCurso({ onCrear }: FormNuevoCursoProps) {
           className="rounded px-2 py-1"
           style={{
             backgroundColor: "transparent",
-            color: defaultColors.primaryDark,
-            border: `1px solid ${defaultColors.G2}`,
+            color: theme.colors.primaryDark,
+            border: `1px solid ${theme.colors.G2}`,
           }}
         />
       </label>
 
       {/* Grado */}
       <label className="block">
-        <Text variant="body" style={{ color: defaultColors.primaryDark }}>
+        <Text variant="body" style={{ color: theme.colors.primaryDark }}>
           Grado
         </Text>
         <select
           className="mt-1 w-full border-b text-sm focus:outline-none rounded px-2 py-1"
           style={{
             backgroundColor: "transparent",
-            color: defaultColors.primaryDark,
-            borderColor: defaultColors.G2,
+            color: theme.colors.primaryDark,
+            borderColor: theme.colors.G2,
           }}
           value={grado}
           onChange={(e) => setGrado(e.target.value)}
@@ -70,15 +71,15 @@ export default function FormNuevoCurso({ onCrear }: FormNuevoCursoProps) {
 
       {/* Bimestres */}
       <label className="block">
-        <Text variant="body" style={{ color: defaultColors.primaryDark }}>
+        <Text variant="body" style={{ color: theme.colors.primaryDark }}>
           Bimestres
         </Text>
         <select
           className="mt-1 w-full border-b text-sm focus:outline-none rounded px-2 py-1"
           style={{
             backgroundColor: "transparent",
-            color: defaultColors.primaryDark,
-            borderColor: defaultColors.G2,
+            color: theme.colors.primaryDark,
+            borderColor: theme.colors.G2,
           }}
           value={bimestres}
           onChange={(e) => setBimestres(e.target.value)}
@@ -97,8 +98,8 @@ export default function FormNuevoCurso({ onCrear }: FormNuevoCursoProps) {
         fullWidth
         className="font-semibold"
         style={{
-          backgroundColor: defaultColors.primary,
-          color: defaultColors.white,
+          backgroundColor: theme.colors.primary,
+          color: theme.colors.white,
         }}
       >
         Crear

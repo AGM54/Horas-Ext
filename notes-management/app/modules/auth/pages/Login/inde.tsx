@@ -1,7 +1,9 @@
 import { useNavigate } from "react-router";
 import { useDispatch } from "react-redux";
-import { login } from "../../../../store";
-import LoginCard from "../components/organisms/LoginCard";
+import { login } from "~/store";
+import components from "~/components";
+
+const { Text, Input, SafeInput, Button } = components;
 
 export default function LoginPage() {
   const dispatch = useDispatch();
@@ -35,12 +37,12 @@ export default function LoginPage() {
         </div>
       </div>
 
-      <Text variant="H3" className="block text-center text-[#263959] mb-6">
+      <Text variant="H3">
         Iniciar Sesión
       </Text>
 
       <Input type="text" placeholder="Código" className="mb-4" />
-      <PasswordInput className="mb-6" />
+      <SafeInput className="mb-6" />
       <Button onClick={handleLogin}>Iniciar Sesión</Button>
     </div>
     </div>

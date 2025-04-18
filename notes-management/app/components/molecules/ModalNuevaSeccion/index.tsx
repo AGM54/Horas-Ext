@@ -1,14 +1,15 @@
 // src/components/organisms/ModalNuevaSeccion.tsx
 
-import Text from "../atoms/Text";
-import NuevaSeccionForm from "../molecules/NuevaSeccionForm";
-import { defaultColors } from "../../../app/theme/src/colors";
+import { useTheme } from "@emotion/react";
+import Text from "../../atoms/Text";
+import NuevaSeccionForm from "../FormNuevaSeccion";
 
 interface Props {
   onClose: () => void;
 }
 
 export default function ModalNuevaSeccion({ onClose }: Props) {
+  const theme = useTheme()
   return (
     <div
       className="fixed inset-0 flex items-center justify-center z-50"
@@ -27,13 +28,13 @@ export default function ModalNuevaSeccion({ onClose }: Props) {
         <button
           onClick={onClose}
           className="absolute top-4 right-4 text-lg font-bold hover:opacity-80"
-          style={{ color: defaultColors.orange }}
+          style={{ color: theme.colors.orange }}
         >
           ✕
         </button>
 
         {/* Título */}
-        <Text variant="H4" className="mb-4" style={{ color: defaultColors.primaryDark }}>
+        <Text variant="H4" color="primaryDark">
           Nueva sección
         </Text>
 
