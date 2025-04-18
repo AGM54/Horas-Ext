@@ -1,0 +1,98 @@
+import { useState } from "react";
+import { ChevronDown, PencilLine, PlusCircle } from "lucide-react";
+import components from "~/components";
+import { defaultColors } from "~/theme/src/colors";
+
+const { Text, Button } = components;
+
+export default function NotasPage() {
+  const cursos = ["Matemáticas", "Historia", "Física", "Programación"];
+  const [cursoSeleccionado, setCursoSeleccionado] = useState("Matemáticas");
+  const [menuAbierto, setMenuAbierto] = useState(false);
+
+  return (
+    <div className="flex flex-col w-full h-full">
+      <div className="flex-1 bg-[#203d5e]  text-white p-6 relative  h-full w-full">
+        {/* Header */}
+        <div className="flex justify-between items-center mb-4">
+          <Text variant="H3">Notas</Text>
+          <div className="flex gap-4">
+            <Button variant="secondary" className="flex items-center gap-2">
+              <PencilLine className="h-4 w-4" style={{ color: defaultColors.primaryDark }} />
+              Editar Notas
+            </Button>
+            <Button variant="secondary" className="flex items-center gap-2">
+              <PlusCircle className="h-4 w-4" style={{ color: defaultColors.primaryDark }} />
+              Nueva Actividad
+            </Button>
+          </div>
+        </div>
+
+        {/* Selección del Curso */}
+        <div className="mb-6">
+          <Text
+            variant="body"
+          >
+            Curso:
+          </Text>
+          <div className="relative inline-block w-64 mt-2">
+            <button
+              className="w-full border border-white bg-transparent text-left py-2 px-4 rounded flex items-center justify-between"
+              onClick={() => setMenuAbierto((prev) => !prev)}
+            >
+              <span>{cursoSeleccionado}</span>
+              <ChevronDown className="h-4 w-4 text-white" />
+            </button>
+
+            {menuAbierto && (
+              <ul className="absolute mt-1 w-full rounded bg-white text-black shadow-lg z-50">
+                {cursos.map((curso) => (
+                  <li
+                    key={curso}
+                    className="px-4 py-2 hover:bg-[#dbeafe] cursor-pointer"
+                    onClick={() => {
+                      setCursoSeleccionado(curso);
+                      setMenuAbierto(false);
+                    }}
+                  >
+                    {curso}
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
+        </div>
+
+        {/* Tabla mock */}
+        <div className="overflow-x-auto bg-white text-black rounded-lg shadow">
+          <table className="min-w-full">
+            <thead>
+              <tr className="bg-gray-200">
+                <th className="px-4 py-2 text-left">Estudiante</th>
+                <th className="px-4 py-2">Actividad1</th>
+                <th className="px-4 py-2">Actividad2</th>
+                <th className="px-4 py-2">Actividad3</th>
+                <th className="px-4 py-2">Actividad4</th>
+                <th className="px-4 py-2">Activ</th>
+                <th className="px-4 py-2">Total</th>
+              </tr>
+            </thead>
+            <tbody>
+              {[...Array(8)].map((_, i) => (
+                <tr key={i} className={i % 2 === 0 ? "bg-gray-100" : "bg-white"}>
+                  <td className="px-4 py-2">Pedrito Pérez: 00{i + 1}</td>
+                  <td className="px-4 py-2">0 / 100</td>
+                  <td className="px-4 py-2">0 / 100</td>
+                  <td className="px-4 py-2">0 / 100</td>
+                  <td className="px-4 py-2">0 / 100</td>
+                  <td className="px-4 py-2">...</td>
+                  <td className="px-4 py-2">0</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  );
+}

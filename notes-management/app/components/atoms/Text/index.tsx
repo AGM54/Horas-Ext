@@ -1,6 +1,6 @@
 import React from "react";
 import { useTheme } from "@emotion/react";
-import type {Typography, Colors} from "../../theme/types"
+import type {Typography, Colors} from "../../../theme/types"
 import { StyledText } from "./styles";
 
 export interface TextProps {

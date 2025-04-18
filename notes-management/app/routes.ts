@@ -1,9 +1,9 @@
-import { type RouteConfig, index, route } from "@react-router/dev/routes";
+// this is the main routing configuration for the whole app
+import { type RouteConfig } from "@react-router/dev/routes";
+import authRoutes from "./modules/auth/navigation/routes";
+import browseRoutes from "./modules/browse/navigation/routes";
 
 export default [
-  // Login page as main route
-  index("routes/auth/login.tsx"),
-  
-  // Protected routes
-  route("dashboard", "routes/browse/index.tsx"),
+ ...authRoutes,
+  browseRoutes
 ] satisfies RouteConfig;
