@@ -14,6 +14,7 @@ export const CellWrapper = styled.td<CellWrapperProps>(({ theme, fixed, width, h
     whiteSpace: 'nowrap',
     width: width ? `${width}px` : `${theme.scale(80)}px`,
     minWidth: width ? `${width}px` : `${theme.scale(80)}px`,
+    maxWith: width ? `${width}px` : `${theme.scale(80)}px`,
     height: height ? `${height}px` : 'auto',
     lineHeight: height ? `${height - 16}px` : 'normal', // Subtract padding
   };
