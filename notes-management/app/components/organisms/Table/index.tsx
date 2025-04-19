@@ -19,6 +19,12 @@ export interface TableProps<T> {
     getRowValues: (item: T, index: number) => React.ReactNode[];
 }
 
+// Helper to render content based on its type
+const renderContent = (content: React.ReactNode) => {
+    const isTextContent = typeof content === 'string' || typeof content === 'number';
+    return isTextContent ? <Text variant="body">{content}</Text> : content;
+};
+
 function Table<T>({
     headers,
     data,
@@ -47,7 +53,9 @@ function Table<T>({
                             const values = getRowValues(item, index);
                             return (
                                 <tr key={`first-${index}`} onClick={() => onRowPress(item, index)}>
-                                    <FirstColumnCell>{values[0]}</FirstColumnCell>
+                                    <FirstColumnCell>
+                                        {renderContent(values[0])}
+                                    </FirstColumnCell>
                                 </tr>
                             );
                         })}
@@ -100,7 +108,9 @@ function Table<T>({
                             const values = getRowValues(item, index);
                             return (
                                 <tr key={`last-${index}`} onClick={() => onRowPress(item, index)}>
-                                    <LastColumnCell>{values[values.length - 1]}</LastColumnCell>
+                                    <LastColumnCell>
+                                        {renderContent(values[values.length - 1])}
+                                    </LastColumnCell>
                                 </tr>
                             );
                         })}
