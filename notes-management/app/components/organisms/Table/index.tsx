@@ -1,9 +1,7 @@
-import TableRow from "@components/molecules/TableRow";
 import React from "react";
 import { 
-    FixedColumn, 
-    FirstColumnCell, 
-    LastColumnCell, 
+    FixedHeaderLeft,
+    FixedHeaderRight,
     ScrollableColumns, 
     StyledTable, 
     TableHeader, 
@@ -11,6 +9,7 @@ import {
 } from "./styles";
 import Text from "@components/atoms/Text";
 import TableCell from "@components/atoms/TableCell";
+import TableRow from "@components/molecules/TableRow";
 
 export interface TableProps<T> {
     headers: string[]
@@ -18,12 +17,6 @@ export interface TableProps<T> {
     onRowPress: (item: T, index?: number) => void
     getRowValues: (item: T, index: number) => React.ReactNode[];
 }
-
-// Helper to render content based on its type
-const renderContent = (content: React.ReactNode) => {
-    const isTextContent = typeof content === 'string' || typeof content === 'number';
-    return isTextContent ? <Text variant="body">{content}</Text> : content;
-};
 
 function Table<T>({
     headers,
@@ -38,85 +31,88 @@ function Table<T>({
 
     return (
         <TableWrapper>
-            {/* First column (fixed) */}
-            <FixedColumn>
-                <StyledTable>
-                    <thead>
-                        <tr>
-                            <TableHeader>
-                                <Text variant="body">{headers[0]}</Text>
-                            </TableHeader>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {data.map((item, index) => {
-                            const values = getRowValues(item, index);
-                            return (
-                                <tr key={`first-${index}`} onClick={() => onRowPress(item, index)}>
-                                    <FirstColumnCell>
-                                        {renderContent(values[0])}
-                                    </FirstColumnCell>
-                                </tr>
-                            );
-                        })}
-                    </tbody>
-                </StyledTable>
-            </FixedColumn>
-
-            {/* Middle columns (scrollable) */}
             <ScrollableColumns>
                 <StyledTable>
                     <thead>
                         <tr>
-                            {headers.slice(1, -1).map((header, idx) => (
-                                <TableHeader key={`middle-${idx}`}>
-                                    <Text variant="body">{header}</Text>
-                                </TableHeader>
-                            ))}
+                            {headers.map((header, idx) => {
+                                // First header
+                                if (idx === 0) {
+                                    return (
+                                        <FixedHeaderLeft key={`header-${idx}`}>
+                                            <Text variant="body">{header}</Text>
+                                        </FixedHeaderLeft>
+                                    );
+                                }
+                                // Last header
+                                if (idx === headers.length - 1) {
+                                    return (
+                                        <FixedHeaderRight key={`header-${idx}`}>
+                                            <Text variant="body">{header}</Text>
+                                        </FixedHeaderRight>
+                                    );
+                                }
+                                // Middle headers
+                                return (
+                                    <TableHeader key={`header-${idx}`}>
+                                        <Text variant="body">{header}</Text>
+                                    </TableHeader>
+                                );
+                            })}
                         </tr>
                     </thead>
                     <tbody>
-                        {data.map((item, index) => {
-                            const values = getRowValues(item, index);
+                        {data.map((item, rowIndex) => {
+                            const values = getRowValues(item, rowIndex);
+                            const isOdd = rowIndex % 2 !== 0;
+                            const handleClick = () => onRowPress(item, rowIndex);
+                            
                             return (
-                                <tr key={`middle-${index}`} onClick={() => onRowPress(item, index)}>
-                                    {values.slice(1, -1).map((value, i) => (
-                                        <TableCell 
-                                            content={value} 
-                                            key={`cell-${i}`} 
-                                        />
-                                    ))}
+                                <tr 
+                                    key={`row-${rowIndex}`} 
+                                    onClick={handleClick}
+                                    style={{
+                                        backgroundColor: isOdd ? '#f5f5f5' : 'white',
+                                        cursor: 'pointer',
+                                    }}
+                                >
+                                    {values.map((value, colIndex) => {
+                                        // First cell in row (left fixed)
+                                        if (colIndex === 0) {
+                                            return (
+                                                <TableCell 
+                                                    key={`cell-${rowIndex}-${colIndex}`}
+                                                    content={value}
+                                                    fixed="left"
+                                                />
+                                            );
+                                        }
+                                        
+                                        // Last cell in row (right fixed)
+                                        if (colIndex === values.length - 1) {
+                                            return (
+                                                <TableCell 
+                                                    key={`cell-${rowIndex}-${colIndex}`}
+                                                    content={value}
+                                                    fixed="right"
+                                                />
+                                            );
+                                        }
+                                        
+                                        // Middle cells
+                                        return (
+                                            <TableCell 
+                                                key={`cell-${rowIndex}-${colIndex}`}
+                                                content={value}
+                                            />
+                                        );
+                                    })}
                                 </tr>
                             );
                         })}
                     </tbody>
                 </StyledTable>
             </ScrollableColumns>
-
-            {/* Last column (fixed) */}
-            <FixedColumn>
-                <StyledTable>
-                    <thead>
-                        <tr>
-                            <TableHeader>
-                                <Text variant="body">{headers[headers.length - 1]}</Text>
-                            </TableHeader>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {data.map((item, index) => {
-                            const values = getRowValues(item, index);
-                            return (
-                                <tr key={`last-${index}`} onClick={() => onRowPress(item, index)}>
-                                    <LastColumnCell>
-                                        {renderContent(values[values.length - 1])}
-                                    </LastColumnCell>
-                                </tr>
-                            );
-                        })}
-                    </tbody>
-                </StyledTable>
-            </FixedColumn>
         </TableWrapper>
     );
 }
@@ -138,8 +134,14 @@ function renderRegularTable<T>({ headers, data, onRowPress, getRowValues }: Tabl
                 <tbody>
                     {data.map((item, index) => {
                         const values = getRowValues(item, index);
+                        const isOdd = index % 2 !== 0;
                         return (
-                            <TableRow values={values} key={index} onClick={() => onRowPress(item, index)} />
+                            <TableRow 
+                                values={values} 
+                                key={index} 
+                                onClick={() => onRowPress(item, index)}
+                                isOdd={isOdd}
+                            />
                         );
                     })}
                 </tbody>

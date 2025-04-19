@@ -6,17 +6,20 @@ export interface TableRowProps {
     values: React.ReactNode[]
     key?: React.Key
     onClick?: () => void
+    isOdd?: boolean
 }
 
 const TableRow : React.FC<TableRowProps>= ({
     values,
     key,
-    onClick
+    onClick,
+    isOdd = false
 }) => {
     return (
         <TableRowContainer
         key={key}
-        onClick={onClick}>
+        onClick={onClick}
+        isOdd={isOdd}>
             {values.map((value, i) => (
                 <TableCell 
                 content={value}

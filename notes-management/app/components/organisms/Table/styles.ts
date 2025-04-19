@@ -1,21 +1,14 @@
 import styled from "@emotion/styled"
 
 export const TableWrapper = styled.div(({ theme }) => ({
-  display: 'flex',
   width: '100%',
   position: 'relative',
   overflow: 'hidden',
 }));
 
-export const FixedColumn = styled.div(({ theme }) => ({
-  flexShrink: 0,
-  zIndex: 2,
-}));
-
 export const ScrollableColumns = styled.div(({ theme }) => ({
-  flex: 1,
+  width: '100%',
   overflow: 'auto',
-  position: 'relative',
 }));
 
 export const StyledTable = styled.table(({ theme }) => ({
@@ -28,6 +21,22 @@ export const TableHeader = styled.th(({ theme }) => ({
   color: theme.colors.primary,
   borderBottom: `1px solid ${theme.colors.primary}`,
   whiteSpace: 'nowrap',
+  position: 'sticky',
+  top: 0,
+  backgroundColor: theme.colors.white,
+  zIndex: 1,
+}));
+
+export const FixedHeaderLeft = styled(TableHeader)(({ theme }) => ({
+  position: 'sticky',
+  left: 0,
+  zIndex: 2,
+}));
+
+export const FixedHeaderRight = styled(TableHeader)(({ theme }) => ({
+  position: 'sticky',
+  right: 0,
+  zIndex: 2,
 }));
 
 export const FirstColumnCell = styled.td(({ theme }) => ({
