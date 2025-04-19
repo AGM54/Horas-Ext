@@ -11,6 +11,8 @@ import Text from "@components/atoms/Text";
 import TableCell from "@components/atoms/TableCell";
 import TableRow from "@components/molecules/TableRow";
 import { TableRowContainer } from "@components/molecules/TableRow/styles";
+import { useTheme } from "@emotion/react";
+import { table } from "console";
 
 export interface TableProps<T> {
     headers: string[]
@@ -27,7 +29,7 @@ function Table<T>({
     data,
     onRowPress,
     getRowValues,
-    cellWidth= 100,
+    cellWidth,
     cellHeight=50,
     maxHeight='90vh',
 }: TableProps<T>): React.ReactElement {
@@ -94,7 +96,8 @@ function Table<T>({
                             const values = getRowValues(item, rowIndex);
                             const isOdd = rowIndex % 2 !== 0;
                             const isRowHovered = hoveredRowIndex === rowIndex;
-                            
+                            const theme = useTheme()
+                            const backgroundColor = isOdd ? theme.colors.G1 : theme.colors.white
                             // Create an array of cells with fixed positioning for first and last
                             const cells = values.map((value, colIndex) => {
                                 // First cell (left fixed)
@@ -121,6 +124,7 @@ function Table<T>({
                                             width={cellWidth}
                                             height={cellHeight}
                                             isHovered={isRowHovered}
+                                            backgroundColor={backgroundColor}
                                         />
                                     );
                                 }
@@ -140,7 +144,7 @@ function Table<T>({
                             return (
                                 <TableRowContainer
                                     key={`row-${rowIndex}`}
-                                    isOdd={isOdd}
+                                    backgroundColor={backgroundColor}
                                     onClick={() => onRowPress(item, rowIndex)}
                                     onMouseEnter={() => setHoveredRowIndex(rowIndex)}
                                     onMouseLeave={() => setHoveredRowIndex(null)}
@@ -188,6 +192,7 @@ function renderRegularTable<T>({ headers, data, onRowPress, getRowValues, cellWi
                                     onClick={() => onRowPress(item, index)}
                                     isOdd={isOdd}
                                     cellHeight={cellHeight}
+                                    cellWidth={cellWidth}
                                 />
                             );
                         })}

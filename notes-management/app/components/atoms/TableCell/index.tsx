@@ -1,5 +1,6 @@
 import { CellWrapper } from "./styles"
 import Text from "@components/atoms/Text"
+import type { Colors } from "@theme/types"
 import React from "react"
 
 interface TableCellProps {
@@ -9,10 +10,11 @@ interface TableCellProps {
     width?: number,
     height?: number,
     isHovered?: boolean
+    backgroundColor?: string
 }
 
 const TableCell: React.FC<TableCellProps> = (
-    { content, key, fixed, width, height, isHovered = false }
+    { content, key, fixed, width, height, isHovered = false, backgroundColor }
 ) => {
     // Check if content is a string or number
     const isTextContent = typeof content === 'string' || typeof content === 'number'

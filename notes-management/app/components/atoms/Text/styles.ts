@@ -9,6 +9,7 @@ export const StyledText = styled.p<TextProps>(({ theme, variant, color, fontWeig
         fontWeight: fontWeight || typography.fontWeight,
         fontSize: fontSize || typography.fontSize,
         letterSpacing: letterSpacing || typography.letterSpacing,
-        textAlign: textAlign ?? 'left'
+        textAlign: textAlign ?? 'left',
+        textOverflow: 'ellipsis'
     };
 });

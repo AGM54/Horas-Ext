@@ -1,22 +1,24 @@
 import styled from "@emotion/styled"
+import type { Colors } from "@theme/types";
 
 interface CellWrapperProps {
   fixed?: 'left' | 'right' | null;
   width?: number;
   height?: number;
-}
+  backgroundColor?: string }
 
-export const CellWrapper = styled.td<CellWrapperProps>(({ theme, fixed, width, height }) => {
+export const CellWrapper = styled.td<CellWrapperProps>(({ theme, fixed, width, height,backgroundColor }) => {
   const baseStyles = {
     padding: theme.sizes.xs,
     justifyContent: 'center',
     alignItems: 'center',
     whiteSpace: 'nowrap',
-    width: width ? `${width}px` : `${theme.scale(80)}px`,
-    minWidth: width ? `${width}px` : `${theme.scale(80)}px`,
-    maxWith: width ? `${width}px` : `${theme.scale(80)}px`,
+    minWidth: width ? `${width}px` : `${theme.scale(200)}px`,
+    width: width ? `${width}px` : 'auto',
     height: height ? `${height}px` : 'auto',
     lineHeight: height ? `${height - 16}px` : 'normal', // Subtract padding
+    overflow: 'hidden',
+    textOverflow: 'ellipsis',
   };
 
   if (fixed === 'left') {
@@ -24,7 +26,10 @@ export const CellWrapper = styled.td<CellWrapperProps>(({ theme, fixed, width, h
       ...baseStyles,
       position: 'sticky',
       left: 0,
-      zIndex: 1,
+      zIndex: 2,
+      borderRight: `1px solid ${theme.colors.G3}`,
+      boxShadow: '2px 0 5px rgba(0,0,0,0.05)',
+      backgroundColor: backgroundColor ?? undefined
     };
   }
 
@@ -34,6 +39,8 @@ export const CellWrapper = styled.td<CellWrapperProps>(({ theme, fixed, width, h
       position: 'sticky',
       right: 0,
       zIndex: 1,
+      borderLeft: `1px solid ${theme.colors.G3}`,
+      boxShadow: '-2px 0 5px rgba(0,0,0,0.05)',
     };
   }
 

@@ -15,36 +15,56 @@ interface ScrollableColumnsProps {
 export const ScrollableColumns = styled.div<ScrollableColumnsProps>(({ theme, maxHeight }) => ({
   width: '100%',
   maxWidth: '100%',
-  overflow: 'auto',
+  overflowX: 'auto',
+  overflowY: 'auto',
   maxHeight: maxHeight ? (typeof maxHeight === 'number' ? `${maxHeight}px` : maxHeight) : '80vh',
+  '&::-webkit-scrollbar': {
+    height: '8px',
+    width: '8px',
+  },
+  '&::-webkit-scrollbar-thumb': {
+    backgroundColor: theme.colors.G3,
+    borderRadius: '4px',
+  },
+  '&::-webkit-scrollbar-track': {
+    backgroundColor: theme.colors.G0,
+  },
 }));
 
 export const StyledTable = styled.table(({ theme }) => ({
   width: '100%',
   borderCollapse: 'collapse',
+  tableLayout: 'auto',
+  minWidth: 'fit-content',
 }));
 
 export const TableHeader = styled.th(({ theme }) => ({
   padding: theme.sizes.md,
   color: theme.colors.primary,
-  borderBottom: `1px solid ${theme.colors.primary}`,
+  borderBottom: `2px solid ${theme.colors.primary}`,
   whiteSpace: 'nowrap',
   position: 'sticky',
   top: 0,
-  backgroundColor: theme.colors.white,
+  backgroundColor: theme.colors.G0,
   zIndex: 1,
+  fontWeight: 'bold',
+  textAlign: 'center',
 }));
 
 export const FixedHeaderLeft = styled(TableHeader)(({ theme }) => ({
   position: 'sticky',
   left: 0,
   zIndex: 2,
+  borderRight: `1px solid ${theme.colors.G3}`,
+  boxShadow: '2px 0 5px rgba(0,0,0,0.1)',
 }));
 
 export const FixedHeaderRight = styled(TableHeader)(({ theme }) => ({
   position: 'sticky',
   right: 0,
   zIndex: 2,
+  borderLeft: `1px solid ${theme.colors.G3}`,
+  boxShadow: '-2px 0 5px rgba(0,0,0,0.1)',
 }));
 
 export const FirstColumnCell = styled.td(({ theme }) => ({

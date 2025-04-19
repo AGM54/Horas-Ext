@@ -1,7 +1,8 @@
 import type React from "react"
-import { useState } from "react"
+import { useMemo, useState } from "react"
 import { TableRowContainer } from "./styles"
 import TableCell from "@components/atoms/TableCell"
+import { useTheme } from "@emotion/react"
 
 export interface TableRowProps {
     values: React.ReactNode[]
@@ -21,12 +22,13 @@ const TableRow: React.FC<TableRowProps>= ({
     cellWidth
 }) => {
     const [isHovered, setIsHovered] = useState(false);
-    
+    const theme = useTheme()
+    const backgroundColor = useMemo(() => isOdd ? theme.colors.G1 : theme.colors.white, [])
     return (
         <TableRowContainer
             key={key}
             onClick={onClick}
-            isOdd={isOdd}
+            backgroundColor={backgroundColor}
             onMouseEnter={() => setIsHovered(true)}
             onMouseLeave={() => setIsHovered(false)}
         >
@@ -37,6 +39,7 @@ const TableRow: React.FC<TableRowProps>= ({
                     isHovered={isHovered}
                     height={cellHeight}
                     width={cellWidth}
+                    backgroundColor={backgroundColor}
                 />
             ))}
         </TableRowContainer>
