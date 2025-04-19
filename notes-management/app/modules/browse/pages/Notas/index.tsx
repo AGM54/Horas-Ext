@@ -18,6 +18,15 @@ const mockCoursesData: CourseData[] = [
       { id: "act3", name: "Actividad 3", maxScore: 100 },
       { id: "act4", name: "Actividad 4", maxScore: 100 },
       { id: "act5", name: "Actividad 5", maxScore: 100 },
+      { id: "act6", name: "Actividad 6", maxScore: 100 },
+      { id: "act7", name: "Actividad 7", maxScore: 100 },
+      { id: "act8", name: "Actividad 8", maxScore: 100 },
+      { id: "act9", name: "Actividad 9", maxScore: 100 },
+      { id: "act10", name: "Actividad 10", maxScore: 100 },
+      { id: "act11", name: "Actividad 11", maxScore: 100 },
+      { id: "act12", name: "Actividad 12", maxScore: 100 },
+      { id: "act13", name: "Actividad 13", maxScore: 100 },
+      { id: "act14", name: "Actividad 14", maxScore: 100 },
     ],
     students: Array(8).fill(null).map((_, i) => ({
       id: `std${i+1}`,
@@ -28,6 +37,15 @@ const mockCoursesData: CourseData[] = [
         { activityId: "act3", score: Math.floor(Math.random() * 100) },
         { activityId: "act4", score: Math.floor(Math.random() * 100) },
         { activityId: "act5", score: Math.floor(Math.random() * 100) },
+        { activityId: "act6", score: Math.floor(Math.random() * 100) },
+        { activityId: "act7", score: Math.floor(Math.random() * 100) },
+        { activityId: "act8", score: Math.floor(Math.random() * 100) },
+        { activityId: "act9", score: Math.floor(Math.random() * 100) },
+        { activityId: "act10", score: Math.floor(Math.random() * 100) },
+        { activityId: "act11", score: Math.floor(Math.random() * 100) },
+        { activityId: "act12", score: Math.floor(Math.random() * 100) },
+        { activityId: "act13", score: Math.floor(Math.random() * 100) },
+        { activityId: "act14", score: Math.floor(Math.random() * 100) },
       ],
     })),
   },
@@ -195,7 +213,7 @@ export default function NotasPage() {
         </div>
 
         {/* Tabla con nuestro componente Table */}
-        <div className="bg-white text-black rounded-lg shadow">
+        {/* <div className="bg-white text-black rounded-lg shadow">
           {studentsWithTotal.length > 0 && (
             <Table<StudentGrade>
               headers={getTableHeaders()}
@@ -205,7 +223,7 @@ export default function NotasPage() {
               maxHeight={'70vh'}
             />
           )}
-        </div>
+        </div> */}
       </div>
     </div>
   );
