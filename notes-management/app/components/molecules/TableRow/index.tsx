@@ -1,4 +1,5 @@
 import type React from "react"
+import { useState } from "react"
 import { TableRowContainer } from "./styles"
 import TableCell from "@components/atoms/TableCell"
 
@@ -7,23 +8,36 @@ export interface TableRowProps {
     key?: React.Key
     onClick?: () => void
     isOdd?: boolean
+    cellHeight?: number
+    cellWidth?: number
 }
 
-const TableRow : React.FC<TableRowProps>= ({
+const TableRow: React.FC<TableRowProps>= ({
     values,
     key,
     onClick,
-    isOdd = false
+    isOdd = false,
+    cellHeight,
+    cellWidth
 }) => {
+    const [isHovered, setIsHovered] = useState(false);
+    
     return (
         <TableRowContainer
-        key={key}
-        onClick={onClick}
-        isOdd={isOdd}>
+            key={key}
+            onClick={onClick}
+            isOdd={isOdd}
+            onMouseEnter={() => setIsHovered(true)}
+            onMouseLeave={() => setIsHovered(false)}
+        >
             {values.map((value, i) => (
                 <TableCell 
-                content={value}
-                key={i}/>
+                    content={value}
+                    key={i}
+                    isHovered={isHovered}
+                    height={cellHeight}
+                    width={cellWidth}
+                />
             ))}
         </TableRowContainer>
     )

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { 
     FixedHeaderLeft,
     FixedHeaderRight,
@@ -10,12 +10,16 @@ import {
 import Text from "@components/atoms/Text";
 import TableCell from "@components/atoms/TableCell";
 import TableRow from "@components/molecules/TableRow";
+import { TableRowContainer } from "@components/molecules/TableRow/styles";
 
 export interface TableProps<T> {
     headers: string[]
     data: T[]
     onRowPress: (item: T, index?: number) => void
     getRowValues: (item: T, index: number) => React.ReactNode[];
+    cellWidth?: number;
+    cellHeight?: number;
+    maxHeight?: number | string;
 }
 
 function Table<T>({
@@ -23,15 +27,21 @@ function Table<T>({
     data,
     onRowPress,
     getRowValues,
+    cellWidth= 100,
+    cellHeight=50,
+    maxHeight='90vh',
 }: TableProps<T>): React.ReactElement {
     if (headers.length < 3) {
         // If fewer than 3 columns, render a regular table
-        return renderRegularTable({ headers, data, onRowPress, getRowValues });
+        return renderRegularTable({ headers, data, onRowPress, getRowValues, cellWidth, cellHeight, maxHeight });
     }
+
+    // Track which row is currently being hovered
+    const [hoveredRowIndex, setHoveredRowIndex] = useState<number | null>(null);
 
     return (
         <TableWrapper>
-            <ScrollableColumns>
+            <ScrollableColumns maxHeight={maxHeight}>
                 <StyledTable>
                     <thead>
                         <tr>
@@ -39,23 +49,41 @@ function Table<T>({
                                 // First header
                                 if (idx === 0) {
                                     return (
-                                        <FixedHeaderLeft key={`header-${idx}`}>
-                                            <Text variant="body">{header}</Text>
+                                        <FixedHeaderLeft 
+                                            key={`header-${idx}`} 
+                                            style={{ 
+                                                width: cellWidth,
+                                                height: cellHeight
+                                            }}
+                                        >
+                                            <Text variant="body" color="primaryDark" textAlign="center">{header}</Text>
                                         </FixedHeaderLeft>
                                     );
                                 }
                                 // Last header
                                 if (idx === headers.length - 1) {
                                     return (
-                                        <FixedHeaderRight key={`header-${idx}`}>
-                                            <Text variant="body">{header}</Text>
+                                        <FixedHeaderRight 
+                                            key={`header-${idx}`} 
+                                            style={{ 
+                                                width: cellWidth,
+                                                height: cellHeight
+                                            }}
+                                        >
+                                            <Text variant="body" color="primaryDark" textAlign="center">{header}</Text>
                                         </FixedHeaderRight>
                                     );
                                 }
                                 // Middle headers
                                 return (
-                                    <TableHeader key={`header-${idx}`}>
-                                        <Text variant="body">{header}</Text>
+                                    <TableHeader 
+                                        key={`header-${idx}`} 
+                                        style={{ 
+                                            width: cellWidth,
+                                            height: cellHeight
+                                        }}
+                                    >
+                                        <Text variant="body" color="primaryDark" textAlign="center">{header}</Text>
                                     </TableHeader>
                                 );
                             })}
@@ -65,49 +93,60 @@ function Table<T>({
                         {data.map((item, rowIndex) => {
                             const values = getRowValues(item, rowIndex);
                             const isOdd = rowIndex % 2 !== 0;
-                            const handleClick = () => onRowPress(item, rowIndex);
+                            const isRowHovered = hoveredRowIndex === rowIndex;
+                            
+                            // Create an array of cells with fixed positioning for first and last
+                            const cells = values.map((value, colIndex) => {
+                                // First cell (left fixed)
+                                if (colIndex === 0) {
+                                    return (
+                                        <TableCell 
+                                            key={`cell-${rowIndex}-${colIndex}`}
+                                            content={value}
+                                            fixed="left"
+                                            width={cellWidth}
+                                            height={cellHeight}
+                                            isHovered={isRowHovered}
+                                        />
+                                    );
+                                }
+                                
+                                // Last cell (right fixed)
+                                if (colIndex === values.length - 1) {
+                                    return (
+                                        <TableCell 
+                                            key={`cell-${rowIndex}-${colIndex}`}
+                                            content={value}
+                                            fixed="right"
+                                            width={cellWidth}
+                                            height={cellHeight}
+                                            isHovered={isRowHovered}
+                                        />
+                                    );
+                                }
+                                
+                                // Middle cells
+                                return (
+                                    <TableCell 
+                                        key={`cell-${rowIndex}-${colIndex}`}
+                                        content={value}
+                                        width={cellWidth}
+                                        height={cellHeight}
+                                        isHovered={isRowHovered}
+                                    />
+                                );
+                            });
                             
                             return (
-                                <tr 
-                                    key={`row-${rowIndex}`} 
-                                    onClick={handleClick}
-                                    style={{
-                                        backgroundColor: isOdd ? '#f5f5f5' : 'white',
-                                        cursor: 'pointer',
-                                    }}
+                                <TableRowContainer
+                                    key={`row-${rowIndex}`}
+                                    isOdd={isOdd}
+                                    onClick={() => onRowPress(item, rowIndex)}
+                                    onMouseEnter={() => setHoveredRowIndex(rowIndex)}
+                                    onMouseLeave={() => setHoveredRowIndex(null)}
                                 >
-                                    {values.map((value, colIndex) => {
-                                        // First cell in row (left fixed)
-                                        if (colIndex === 0) {
-                                            return (
-                                                <TableCell 
-                                                    key={`cell-${rowIndex}-${colIndex}`}
-                                                    content={value}
-                                                    fixed="left"
-                                                />
-                                            );
-                                        }
-                                        
-                                        // Last cell in row (right fixed)
-                                        if (colIndex === values.length - 1) {
-                                            return (
-                                                <TableCell 
-                                                    key={`cell-${rowIndex}-${colIndex}`}
-                                                    content={value}
-                                                    fixed="right"
-                                                />
-                                            );
-                                        }
-                                        
-                                        // Middle cells
-                                        return (
-                                            <TableCell 
-                                                key={`cell-${rowIndex}-${colIndex}`}
-                                                content={value}
-                                            />
-                                        );
-                                    })}
-                                </tr>
+                                    {cells}
+                                </TableRowContainer>
                             );
                         })}
                     </tbody>
@@ -118,34 +157,43 @@ function Table<T>({
 }
 
 // Helper function for the regular table (used when there are fewer than 3 columns)
-function renderRegularTable<T>({ headers, data, onRowPress, getRowValues }: TableProps<T>) {
+function renderRegularTable<T>({ headers, data, onRowPress, getRowValues, cellWidth, cellHeight, maxHeight }: TableProps<T>) {
     return (
         <TableWrapper>
-            <StyledTable>
-                <thead>
-                    <tr>
-                        {headers.map((header, idx) => (
-                            <TableHeader key={idx}>
-                                <Text variant="body">{header}</Text>
-                            </TableHeader>
-                        ))}
-                    </tr>
-                </thead>
-                <tbody>
-                    {data.map((item, index) => {
-                        const values = getRowValues(item, index);
-                        const isOdd = index % 2 !== 0;
-                        return (
-                            <TableRow 
-                                values={values} 
-                                key={index} 
-                                onClick={() => onRowPress(item, index)}
-                                isOdd={isOdd}
-                            />
-                        );
-                    })}
-                </tbody>
-            </StyledTable>
+            <ScrollableColumns maxHeight={maxHeight}>
+                <StyledTable>
+                    <thead>
+                        <tr>
+                            {headers.map((header, idx) => (
+                                <TableHeader 
+                                    key={idx} 
+                                    style={{ 
+                                        width: cellWidth,
+                                        height: cellHeight
+                                    }}
+                                >
+                                    <Text variant="body" color="primaryDark">{header}</Text>
+                                </TableHeader>
+                            ))}
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {data.map((item, index) => {
+                            const values = getRowValues(item, index);
+                            const isOdd = index % 2 !== 0;
+                            return (
+                                <TableRow 
+                                    values={values} 
+                                    key={index} 
+                                    onClick={() => onRowPress(item, index)}
+                                    isOdd={isOdd}
+                                    cellHeight={cellHeight}
+                                />
+                            );
+                        })}
+                    </tbody>
+                </StyledTable>
+            </ScrollableColumns>
         </TableWrapper>
     );
 }

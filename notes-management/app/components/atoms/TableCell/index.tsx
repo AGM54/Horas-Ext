@@ -5,19 +5,28 @@ import React from "react"
 interface TableCellProps {
     content: any,
     key?: any,
-    fixed?: 'left' | 'right' | null
+    fixed?: 'left' | 'right' | null,
+    width?: number,
+    height?: number,
+    isHovered?: boolean
 }
 
 const TableCell: React.FC<TableCellProps> = (
-    { content, key, fixed }
+    { content, key, fixed, width, height, isHovered = false }
 ) => {
     // Check if content is a string or number
     const isTextContent = typeof content === 'string' || typeof content === 'number'
     
     return (
-        <CellWrapper key={key} fixed={fixed}>
+        <CellWrapper key={key} fixed={fixed} width={width} height={height}>
             {isTextContent ? (
-                <Text variant="body">{content}</Text>
+                <Text 
+                    variant="body" 
+                    color={isHovered ? "white" : "primaryDark"}
+                    textAlign="center"
+                >
+                    {content}
+                </Text>
             ) : (
                 content
             )}

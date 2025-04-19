@@ -2,17 +2,20 @@ import styled from "@emotion/styled"
 
 interface CellWrapperProps {
   fixed?: 'left' | 'right' | null;
-  theme: any;
+  width?: number;
+  height?: number;
 }
 
-export const CellWrapper = styled.td<CellWrapperProps>(({ theme, fixed }) => {
+export const CellWrapper = styled.td<CellWrapperProps>(({ theme, fixed, width, height }) => {
   const baseStyles = {
-    padding: theme.sizes.md,
+    padding: theme.sizes.xs,
     justifyContent: 'center',
     alignItems: 'center',
-    color: theme.colors.primary,
     whiteSpace: 'nowrap',
-    borderBottom: `1px solid ${theme.colors.G3}`,
+    width: width ? `${width}px` : `${theme.scale(80)}px`,
+    minWidth: width ? `${width}px` : `${theme.scale(80)}px`,
+    height: height ? `${height}px` : 'auto',
+    lineHeight: height ? `${height - 16}px` : 'normal', // Subtract padding
   };
 
   if (fixed === 'left') {
@@ -21,7 +24,6 @@ export const CellWrapper = styled.td<CellWrapperProps>(({ theme, fixed }) => {
       position: 'sticky',
       left: 0,
       zIndex: 1,
-      backgroundColor: 'inherit',
     };
   }
 
@@ -31,7 +33,6 @@ export const CellWrapper = styled.td<CellWrapperProps>(({ theme, fixed }) => {
       position: 'sticky',
       right: 0,
       zIndex: 1,
-      backgroundColor: 'inherit',
     };
   }
 

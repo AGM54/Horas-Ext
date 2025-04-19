@@ -202,6 +202,7 @@ export default function NotasPage() {
               data={studentsWithTotal}
               onRowPress={handleRowPress}
               getRowValues={getRowValues}
+              maxHeight={'70vh'}
             />
           )}
         </div>

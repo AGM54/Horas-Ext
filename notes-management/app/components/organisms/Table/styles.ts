@@ -4,11 +4,19 @@ export const TableWrapper = styled.div(({ theme }) => ({
   width: '100%',
   position: 'relative',
   overflow: 'hidden',
+  border: `1px solid ${theme.colors.G3}`,
+  borderRadius: theme.sizes.xs,
 }));
 
-export const ScrollableColumns = styled.div(({ theme }) => ({
+interface ScrollableColumnsProps {
+  maxHeight?: number | string;
+}
+
+export const ScrollableColumns = styled.div<ScrollableColumnsProps>(({ theme, maxHeight }) => ({
   width: '100%',
+  maxWidth: '100%',
   overflow: 'auto',
+  maxHeight: maxHeight ? (typeof maxHeight === 'number' ? `${maxHeight}px` : maxHeight) : '80vh',
 }));
 
 export const StyledTable = styled.table(({ theme }) => ({
