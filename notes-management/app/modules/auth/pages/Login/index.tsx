@@ -22,7 +22,6 @@ export default function LoginPage() {
 
   const handleLogin = () => {
     try {
-      console.log("Logging in...");
       const mockUser = {
         id: "1",
         name: "Test User",
