@@ -1,5 +1,6 @@
 import { configureStore } from '@reduxjs/toolkit';
 import authReducer from './authSlice';
+import notesScreenReducer from './notesSlice'
 
 // Check if we're in a browser environment
 const isBrowser = typeof window !== 'undefined';
@@ -31,13 +32,14 @@ const preloadedState = {
     user: null,
     isAuthenticated: false,
     token: null
-  }
+  },
 };
 
 // Create store with preloaded state
 export const store = configureStore({
   reducer: {
     auth: authReducer,
+    notes: notesScreenReducer
   },
   preloadedState
 });
