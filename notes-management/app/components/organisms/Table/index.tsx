@@ -12,7 +12,6 @@ import TableCell from "@components/atoms/TableCell";
 import TableRow from "@components/molecules/TableRow";
 import { TableRowContainer } from "@components/molecules/TableRow/styles";
 import { useTheme } from "@emotion/react";
-import { table } from "console";
 
 export interface TableProps<T> {
     headers: string[]
