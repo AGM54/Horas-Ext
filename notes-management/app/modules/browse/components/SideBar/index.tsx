@@ -8,6 +8,8 @@ import {
   
   import type { JSX } from "react";
   import { useNavigate } from "react-router-dom"; 
+  import { useDispatch } from "react-redux";
+  import { logout } from "~/store";
   
   interface NavItem {
     label: string;
@@ -25,9 +27,31 @@ import {
   
   export default function Sidebar() {
     const navigate = useNavigate(); 
+    const dispatch = useDispatch();
   
     const handleNavigate = (path: string) => {
-      navigate(path); //
+      navigate(path);
+    };
+    
+    const handleLogout = () => {
+      console.log("Logging out...");
+      
+      // First dispatch the logout action
+      dispatch(logout());
+      
+      // Clear localStorage directly as a safety measure
+      try {
+        localStorage.removeItem('authState');
+        localStorage.removeItem('userLoggedIn');
+      } catch (e) {
+        console.error('Error clearing localStorage:', e);
+      }
+      
+      // Then navigate to login
+      setTimeout(() => {
+        console.log("Redirecting to login page...");
+        navigate("/", { replace: true });
+      }, 50);
     };
   
     return (
@@ -56,7 +80,7 @@ import {
         {/* Cerrar sesión */}
         <div className="mt-auto w-full">
           <button
-            onClick={() => navigate("/")}
+            onClick={handleLogout}
             className="flex items-center gap-2 px-3 py-2 text-sm hover:bg-[#1f3552] rounded w-full transition"
           >
             <FaSignOutAlt />
