@@ -6,6 +6,7 @@ export const TableWrapper = styled.div(({ theme }) => ({
   overflow: 'hidden',
   border: `1px solid ${theme.colors.G3}`,
   borderRadius: theme.sizes.xs,
+  boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
 }));
 
 interface ScrollableColumnsProps {
@@ -32,10 +33,10 @@ export const ScrollableColumns = styled.div<ScrollableColumnsProps>(({ theme, ma
 }));
 
 export const StyledTable = styled.table(({ theme }) => ({
-  width: '100%',
+  width: 'auto',
+  maxWidth: 'none',
   borderCollapse: 'collapse',
-  tableLayout: 'auto',
-  minWidth: 'fit-content',
+  tableLayout: 'fixed',
 }));
 
 export const TableHeader = styled.th(({ theme }) => ({

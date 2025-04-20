@@ -6,7 +6,7 @@ import React from "react"
 interface TableCellProps {
     content: any,
     cellKey?: any,
-    fixed?: 'left' | 'right' | null,
+    fixed?: 'left' | 'right',
     width?: number,
     height?: number,
     isHovered?: boolean

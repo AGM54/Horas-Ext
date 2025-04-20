@@ -2,7 +2,7 @@ import styled from "@emotion/styled"
 import type { Colors } from "@theme/types";
 
 interface CellWrapperProps {
-  fixed?: 'left' | 'right' | null;
+  fixed?: 'left' | 'right';
   width?: number;
   height?: number;
   backgroundColor?: string }
@@ -14,7 +14,7 @@ export const CellWrapper = styled.td<CellWrapperProps>(({ theme, fixed, width, h
     alignItems: 'center',
     whiteSpace: 'nowrap',
     minWidth: width ? `${width}px` : `${theme.scale(200)}px`,
-    width: width ? `${width}px` : 'auto',
+    width: width ? `${width}px` : `${theme.scale(200)}px`,
     height: height ? `${height}px` : 'auto',
     lineHeight: height ? `${height - 16}px` : 'normal', // Subtract padding
     overflow: 'hidden',
@@ -42,6 +42,7 @@ export const CellWrapper = styled.td<CellWrapperProps>(({ theme, fixed, width, h
       zIndex: 1,
       borderLeft: `1px solid ${theme.colors.G3}`,
       boxShadow: '-2px 0 5px rgba(0,0,0,0.05)',
+      backgroundColor: 'inherit'
     };
   }
 

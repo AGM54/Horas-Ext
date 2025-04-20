@@ -21,6 +21,10 @@ export interface TableProps<T> {
     cellWidth?: number;
     cellHeight?: number;
     maxHeight?: number | string;
+    maxWidth?: string;
+    alignSelf?: string;
+    containerBgColor?: string;
+    containerBorderRadius?: string;
 }
 
 function Table<T>({
@@ -31,17 +35,41 @@ function Table<T>({
     cellWidth,
     cellHeight=50,
     maxHeight='90vh',
+    maxWidth,
+    alignSelf,
+    containerBgColor,
+    containerBorderRadius,
 }: TableProps<T>): React.ReactElement {
     if (headers.length < 3) {
         // If fewer than 3 columns, render a regular table
-        return renderRegularTable({ headers, data, onRowPress, getRowValues, cellWidth, cellHeight, maxHeight });
+        return renderRegularTable({ 
+            headers, 
+            data, 
+            onRowPress, 
+            getRowValues, 
+            cellWidth, 
+            cellHeight, 
+            maxHeight,
+            maxWidth,
+            alignSelf,
+            containerBgColor,
+            containerBorderRadius,
+        });
     }
 
     // Track which row is currently being hovered
     const [hoveredRowIndex, setHoveredRowIndex] = useState<number | null>(null);
+    const theme = useTheme();
 
     return (
-        <TableWrapper>
+        <TableWrapper 
+            style={{
+                maxWidth: maxWidth,
+                alignSelf: alignSelf,
+                backgroundColor: containerBgColor || 'white',
+                borderRadius: containerBorderRadius || theme.sizes.xs
+            }}
+        >
             <ScrollableColumns maxHeight={maxHeight}>
                 <StyledTable>
                     <thead>
@@ -157,9 +185,30 @@ function Table<T>({
 }
 
 // Helper function for the regular table (used when there are fewer than 3 columns)
-function renderRegularTable<T>({ headers, data, onRowPress, getRowValues, cellWidth, cellHeight, maxHeight }: TableProps<T>) {
+function renderRegularTable<T>({ 
+    headers, 
+    data, 
+    onRowPress, 
+    getRowValues, 
+    cellWidth, 
+    cellHeight, 
+    maxHeight,
+    maxWidth,
+    alignSelf,
+    containerBgColor,
+    containerBorderRadius 
+}: TableProps<T>) {
+    const theme = useTheme();
+    
     return (
-        <TableWrapper>
+        <TableWrapper 
+            style={{
+                maxWidth: maxWidth,
+                alignSelf: alignSelf,
+                backgroundColor: containerBgColor || 'white',
+                borderRadius: containerBorderRadius || theme.sizes.xs
+            }}
+        >
             <ScrollableColumns maxHeight={maxHeight}>
                 <StyledTable>
                     <thead>
@@ -199,4 +248,4 @@ function renderRegularTable<T>({ headers, data, onRowPress, getRowValues, cellWi
     );
 }
 
-export default React.memo(Table)
+export default Table;
