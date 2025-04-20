@@ -11,11 +11,12 @@ export interface TextProps {
     letterSpacing?: number;
     style?: React.CSSProperties;
     children: React.ReactNode;
+    textAlign?: "start" | "end" | "left" | "right" | "center" | "justify" | "match-parent"
 }
 
 
 
-const Text: React.FC<TextProps> = ({ variant, color, fontWeight, fontSize, letterSpacing, style, children }) => {
+const Text: React.FC<TextProps> = ({ variant, color, fontWeight, fontSize, letterSpacing, style, children,textAlign }) => {
     const theme = useTheme();
     return (
         <StyledText 
@@ -26,6 +27,7 @@ const Text: React.FC<TextProps> = ({ variant, color, fontWeight, fontSize, lette
             letterSpacing={letterSpacing} 
             style={style}
             theme={theme}
+            textAlign={textAlign}
         >
             {children}
         </StyledText>

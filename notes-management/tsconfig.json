@@ -20,6 +20,7 @@
       "@modules/*": ["app/modules/*"],
       "@theme/*": ["app/theme/*"],
       "@store/*": ["app/store/*"],
+      "@mocks/*": ["app/mocks/*"],
       "~/*": ["./app/*"],
     },
     "esModuleInterop": true,

@@ -11,6 +11,7 @@ export default defineConfig({
       '@components': path.resolve(__dirname, './app/components'),
       '@modules': path.resolve(__dirname, './app/modules'),
       '@theme': path.resolve(__dirname, './app/theme'),
+      '@mocks': path.resolve(__dirname, './app/mocks'),
       '@store': path.resolve(__dirname, './app/store'),
     },
   },
