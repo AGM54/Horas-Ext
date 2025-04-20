@@ -1,5 +1,5 @@
 import { mockCoursesData } from "@mocks/notes/mock";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { ChevronDown, PencilLine, PlusCircle } from "lucide-react";
 import components from "~/components";
 import type { CourseData, StudentGrade } from "~/interfaces/grades";
@@ -82,11 +82,11 @@ export default function NotasPage() {
 
          <div className="bg-white text-black rounded-lg shadow">
            {studentsWithTotal.length > 0 && (
-             <Table<StudentGrade>
+             <Table
                headers={getTableHeaders()}
-               data={studentsWithTotal}
-               onRowPress={handleRowPress}
-               getRowValues={getRowValues}
+               data={studentsWithTotal as StudentGrade[]}
+               onRowPress={handleRowPress as (item: unknown, index?: number) => void}
+               getRowValues={getRowValues as (item: unknown, index: number) => React.ReactNode[]}
                maxHeight={'70vh'}
              />
            )}
