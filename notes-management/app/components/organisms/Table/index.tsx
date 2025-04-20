@@ -95,8 +95,6 @@ function Table<T>({
                             const values = getRowValues(item, rowIndex);
                             const isOdd = rowIndex % 2 !== 0;
                             const isRowHovered = hoveredRowIndex === rowIndex;
-                            const theme = useTheme()
-                            const backgroundColor = isOdd ? theme.colors.G1 : theme.colors.white
                             // Create an array of cells with fixed positioning for first and last
                             const cells = values.map((value, colIndex) => {
                                 // First cell (left fixed)
@@ -123,7 +121,6 @@ function Table<T>({
                                             width={cellWidth}
                                             height={cellHeight}
                                             isHovered={isRowHovered}
-                                            backgroundColor={backgroundColor}
                                         />
                                     );
                                 }
@@ -143,7 +140,7 @@ function Table<T>({
                             return (
                                 <TableRowContainer
                                     key={`row-${rowIndex}`}
-                                    backgroundColor={backgroundColor}
+                                    isOdd={isOdd}
                                     onClick={() => onRowPress(item, rowIndex)}
                                     onMouseEnter={() => setHoveredRowIndex(rowIndex)}
                                     onMouseLeave={() => setHoveredRowIndex(null)}
@@ -202,4 +199,4 @@ function renderRegularTable<T>({ headers, data, onRowPress, getRowValues, cellWi
     );
 }
 
-export default Table
+export default React.memo(Table)

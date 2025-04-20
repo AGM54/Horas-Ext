@@ -19,6 +19,7 @@ export const CellWrapper = styled.td<CellWrapperProps>(({ theme, fixed, width, h
     lineHeight: height ? `${height - 16}px` : 'normal', // Subtract padding
     overflow: 'hidden',
     textOverflow: 'ellipsis',
+    backgroundColor: backgroundColor ?? undefined
   };
 
   if (fixed === 'left') {
@@ -29,7 +30,7 @@ export const CellWrapper = styled.td<CellWrapperProps>(({ theme, fixed, width, h
       zIndex: 2,
       borderRight: `1px solid ${theme.colors.G3}`,
       boxShadow: '2px 0 5px rgba(0,0,0,0.05)',
-      backgroundColor: backgroundColor ?? undefined
+      backgroundColor: 'inherit'
     };
   }
 

@@ -5,7 +5,7 @@ import React from "react"
 
 interface TableCellProps {
     content: any,
-    key?: any,
+    cellKey?: any,
     fixed?: 'left' | 'right' | null,
     width?: number,
     height?: number,
@@ -14,13 +14,13 @@ interface TableCellProps {
 }
 
 const TableCell: React.FC<TableCellProps> = (
-    { content, key, fixed, width, height, isHovered = false, backgroundColor }
+    { content, cellKey, fixed, width, height, isHovered = false, backgroundColor }
 ) => {
     // Check if content is a string or number
     const isTextContent = typeof content === 'string' || typeof content === 'number'
     
     return (
-        <CellWrapper key={key} fixed={fixed} width={width} height={height}>
+        <CellWrapper key={cellKey} fixed={fixed} width={width} height={height} backgroundColor={backgroundColor}>
             {isTextContent ? (
                 <Text 
                     variant="body" 
