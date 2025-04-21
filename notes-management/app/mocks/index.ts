@@ -1,1 +1,1 @@
-export * from  './notes/mock'
+export * from './notes/mock'

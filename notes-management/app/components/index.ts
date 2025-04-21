@@ -37,22 +37,22 @@ export * from "./organisms/Table";
 
 // Export default object with all components
 export default {
-  // Atoms
-  Text,
-  TableCell,
-  Input,
-  Button,
-  
-  // Molecules
-  CursoCard,
-  FormNuevaSeccion,
-  FormNuevoCurso,
-  SafeInput,
-  TableRow,
-  ModalNuevoCurso,
-  ModalNuevaSeccion,
-  
-  // Organisms
-  CursosGrid,
-  Table
+	// Atoms
+	Text,
+	TableCell,
+	Input,
+	Button,
+
+	// Molecules
+	CursoCard,
+	FormNuevaSeccion,
+	FormNuevoCurso,
+	SafeInput,
+	TableRow,
+	ModalNuevoCurso,
+	ModalNuevaSeccion,
+
+	// Organisms
+	CursosGrid,
+	Table
 };

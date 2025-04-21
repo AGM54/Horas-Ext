@@ -4,6 +4,6 @@ import authRoutes from "./modules/auth/navigation/routes";
 import browseRoutes from "./modules/browse/navigation/routes";
 
 export default [
- ...authRoutes,
-  browseRoutes
+	...authRoutes,
+	browseRoutes
 ] satisfies RouteConfig;
