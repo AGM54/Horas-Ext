@@ -37,13 +37,15 @@ export default function NotasPage() {
          {/* Header */}
          <div className="flex justify-between items-center mb-4">
            <Text variant="H3">Notas</Text>
+
+            {/* Botones */}
            <div className="flex gap-4">
-             <Button variant="secondary" className="flex items-center gap-2">
+             <Button variant="secondary" className="flex items-center gap-2" style={{ whiteSpace: 'nowrap', paddingLeft: '10px' , paddingRight: '10px' }}>
                <PencilLine className="h-4 w-4" style={{ color: theme.colors.primaryDark }} />
                Editar Notas
              </Button>
-             <Button variant="secondary" className="flex items-center gap-2">
-               <PlusCircle className="h-4 w-4" style={{ color: theme.colors.primaryDark }} />
+             <Button variant="secondary" className="flex items-center gap-2" style={{ whiteSpace: 'nowrap', paddingLeft: '10px' , paddingRight: '10px' }}>
+               <PlusCircle className="h-4 w-4" style={{ color: theme.colors.primaryDark}} />
                Nueva Actividad
              </Button>
            </div>
