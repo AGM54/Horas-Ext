@@ -88,11 +88,12 @@ export default function useNotesScreen() {
       const gradeEntry = student.grades.find(grade => grade.activityId === activity.id);
       return `${gradeEntry?.score || 0} / ${activity.maxScore}`;
     });
-    
+    const totalMaxScore = currentCourseData.activities.reduce((sum, activity) => sum + activity.maxScore, 0);
+
     return [
       student.name,
       ...activityScores,
-      student.total || 0
+      `${student.total} / ${totalMaxScore}` || 0
     ];
   };
   
