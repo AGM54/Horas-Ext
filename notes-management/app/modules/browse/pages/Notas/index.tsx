@@ -1,6 +1,6 @@
 import { mockCoursesData } from "@mocks/notes/mock";
-import React, { useState } from "react";
-import { ChevronDown, PencilLine, PlusCircle } from "lucide-react";
+import React, { useState, useCallback, useRef } from "react";
+import { ChevronDown, PencilLine, PlusCircle, Save } from "lucide-react";
 import components from "~/components";
 import type { CourseData, StudentGrade } from "~/interfaces/grades";
 import { useTheme } from "@emotion/react";
@@ -13,6 +13,7 @@ const { Text, Button } = components;
 export default function NotasPage() {
 	const [isEditingNotes, setIsEditingNotes] = useState(false);
 	const theme = useTheme();
+	const debounceTimerRef = useRef<NodeJS.Timeout | null>(null);
 	
 	const {
 		// State
@@ -35,8 +36,41 @@ export default function NotasPage() {
 		handleRowPress
 	} = useNotesScreen();
 
-	const toggleEditMode = () => {
-		setIsEditingNotes(prev => !prev);
+	// This is the function that will be called when the "Editar Notas" button is clicked
+	const toggleEditMode = useCallback(() => {
+		// Clear any existing timers
+		if (debounceTimerRef.current) {
+			clearTimeout(debounceTimerRef.current);
+		}
+		
+		// Set a debounce timer to prevent rapid toggling
+		debounceTimerRef.current = setTimeout(() => {
+			setIsEditingNotes(prevState => !prevState);
+			debounceTimerRef.current = null;
+		}, 100);
+	}, []);
+
+	// This is the function that will be called from the GradingTable when its internal editing state changes
+	const handleEditingChange = useCallback((editing: boolean) => {
+		// Prevent excessive updates
+		if (editing !== isEditingNotes) {
+			// Clear any existing timers
+			if (debounceTimerRef.current) {
+				clearTimeout(debounceTimerRef.current);
+			}
+			
+			// Set after a small delay to prevent race conditions
+			debounceTimerRef.current = setTimeout(() => {
+				setIsEditingNotes(editing);
+				debounceTimerRef.current = null;
+			}, 100);
+		}
+	}, [isEditingNotes]);
+
+	// Get the activity max scores
+	const getActivityMaxScores = () => {
+		if (!currentCourseData) return [];
+		return currentCourseData.activities.map(activity => activity.maxScore);
 	};
 
 	return (
@@ -54,8 +88,17 @@ export default function NotasPage() {
 							style={{ whiteSpace: 'nowrap', paddingLeft: '10px', paddingRight: '10px' }} 
 							onClick={toggleEditMode}
 						>
-							<PencilLine className="h-4 w-4" style={{ color: theme.colors.primaryDark }} />
-							{isEditingNotes ? "Guardar Notas" : "Editar Notas"}
+							{isEditingNotes ? (
+								<>
+									<Save className="h-4 w-4" style={{ color: theme.colors.primaryDark }} />
+									Guardar Notas
+								</>
+							) : (
+								<>
+									<PencilLine className="h-4 w-4" style={{ color: theme.colors.primaryDark }} />
+									Editar Notas
+								</>
+							)}
 						</Button>
 						<Button variant="secondary" className="flex items-center gap-2">
 							<PlusCircle className="h-4 w-4" style={{ color: theme.colors.primaryDark }} />
@@ -95,13 +138,13 @@ export default function NotasPage() {
 					</div>
 				</div>
 
-				{studentsWithTotal.length > 0 && (
+				{studentsWithTotal.length > 0 && currentCourseData && (
 					<GradingTable
 						headers={getTableHeaders()}
 						data={studentsWithTotal}
 						onRowPress={handleRowPress}
 						isEditing={isEditingNotes}
-						onSetEditing={setIsEditingNotes}
+						onSetEditing={handleEditingChange}
 						onGradeUpdate={handleGradeUpdate}
 						getActivityIdByIndex={getActivityIdByIndex}
 						maxHeight={'70vh'}

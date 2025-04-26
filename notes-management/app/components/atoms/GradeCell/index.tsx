@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import TableCell from "@components/atoms/TableCell";
 import { useGradingContext } from "@components/contexts/GradingContext";
 import { EditableInput, GradeCellContainer } from "./styles";
@@ -28,6 +28,11 @@ const GradeCell: React.FC<GradeCellProps> = ({
 }) => {
   const { isEditing, updateGrade } = useGradingContext();
   const [inputValue, setInputValue] = useState(score.toString());
+  
+  // Update inputValue when score prop changes
+  useEffect(() => {
+    setInputValue(score.toString());
+  }, [score]);
   
   // When not editing, display the score normally
   if (!isEditing) {
@@ -73,8 +78,9 @@ const GradeCell: React.FC<GradeCellProps> = ({
         onChange={handleChange}
         onBlur={handleBlur}
         onKeyDown={handleKeyDown}
+        onClick={(e) => e.stopPropagation()} // Prevent row click when clicking on input
       />
-      <span style={{ marginLeft: '4px' }}>{` / ${maxScore}`}</span>
+      <span style={{ marginLeft: '4px', color:'inherit'}}>{` / ${maxScore}`}</span>
     </GradeCellContainer>
   );
   
