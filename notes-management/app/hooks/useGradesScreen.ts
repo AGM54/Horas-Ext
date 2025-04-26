@@ -4,7 +4,8 @@ import {
 	setCourses,
 	setSelectedCourse,
 	setCurrentCourseData,
-	setStudentsWithTotal
+	setStudentsWithTotal,
+	updateStudentGrade
 } from '~/store/notesSlice';
 import type { RootState } from '~/store';
 
@@ -88,6 +89,7 @@ export default function useNotesScreen() {
 			const gradeEntry = student.grades.find(grade => grade.activityId === activity.id);
 			return `${gradeEntry?.score || 0} / ${activity.maxScore}`;
 		});
+		
 		const totalMaxScore = currentCourseData.activities.reduce((sum, activity) => sum + activity.maxScore, 0);
 
 		return [
@@ -95,6 +97,19 @@ export default function useNotesScreen() {
 			...activityScores,
 			`${student.total} / ${totalMaxScore}` || 0
 		];
+	};
+
+	// Function to handle grade updates
+	const handleGradeUpdate = (studentId: string, activityId: string, score: number) => {
+		dispatch(updateStudentGrade({ studentId, activityId, score }));
+	};
+
+	// Get activity ID by index position
+	const getActivityIdByIndex = (index: number) => {
+		if (!currentCourseData || !currentCourseData.activities[index]) {
+			return '';
+		}
+		return currentCourseData.activities[index].id;
 	};
 
 	const handleRowPress = (student: StudentGrade) => {
@@ -113,6 +128,8 @@ export default function useNotesScreen() {
 		// Actions
 		handleCourseSelect,
 		toggleMenu,
+		handleGradeUpdate,
+		getActivityIdByIndex,
 
 		// Table functions
 		getTableHeaders,

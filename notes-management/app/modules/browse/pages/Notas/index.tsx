@@ -1,15 +1,19 @@
 import { mockCoursesData } from "@mocks/notes/mock";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { ChevronDown, PencilLine, PlusCircle } from "lucide-react";
 import components from "~/components";
 import type { CourseData, StudentGrade } from "~/interfaces/grades";
 import { useTheme } from "@emotion/react";
 import useNotesScreen from "~/hooks/useGradesScreen";
 import { NotasContainer, NotasContent } from "./styles";
-import EditableTable from "~/components/organisms/EditableTable";
+import GradingTable from "~/components/organisms/GradingTable";
+
 const { Text, Button } = components;
 
 export default function NotasPage() {
+	const [isEditingNotes, setIsEditingNotes] = useState(false);
+	const theme = useTheme();
+	
 	const {
 		// State
 		courses,
@@ -22,6 +26,8 @@ export default function NotasPage() {
 		// Actions
 		handleCourseSelect,
 		toggleMenu,
+		handleGradeUpdate,
+		getActivityIdByIndex,
 
 		// Table functions
 		getTableHeaders,
@@ -29,24 +35,8 @@ export default function NotasPage() {
 		handleRowPress
 	} = useNotesScreen();
 
-	const theme = useTheme()
-	const [isEditingNotes, setIsEditingNotes] = useState(false);
-
-	// Calculate which columns are editable (all activity columns except student name and total)
-	const getEditableColumns = () => {
-		if (!currentCourseData) return [];
-		
-		// Return all column indices except first (student name) and last (total)
-		return Array.from(
-			{ length: currentCourseData.activities.length },
-			(_, i) => i + 1
-		);
-	};
-
-	// Handle cell value changes when editing
-	const handleCellValueChange = (rowIndex: number, colIndex: number, newValue: string) => {
-		console.log(`Changed value at row ${rowIndex}, column ${colIndex} to: ${newValue}`);
-		// TODO: Call the API for update
+	const toggleEditMode = () => {
+		setIsEditingNotes(prev => !prev);
 	};
 
 	return (
@@ -58,7 +48,12 @@ export default function NotasPage() {
 
 					{/* Botones */}
 					<div className="flex gap-4">
-						<Button variant="secondary" className="flex items-center gap-2" style={{ whiteSpace: 'nowrap', paddingLeft: '10px', paddingRight: '10px' }} onClick={() => setIsEditingNotes(!isEditingNotes)}>
+						<Button 
+							variant="secondary" 
+							className="flex items-center gap-2" 
+							style={{ whiteSpace: 'nowrap', paddingLeft: '10px', paddingRight: '10px' }} 
+							onClick={toggleEditMode}
+						>
 							<PencilLine className="h-4 w-4" style={{ color: theme.colors.primaryDark }} />
 							{isEditingNotes ? "Guardar Notas" : "Editar Notas"}
 						</Button>
@@ -101,20 +96,20 @@ export default function NotasPage() {
 				</div>
 
 				{studentsWithTotal.length > 0 && (
-					<EditableTable
+					<GradingTable
 						headers={getTableHeaders()}
-						data={studentsWithTotal as StudentGrade[]}
-						onRowPress={handleRowPress as (item: unknown, index?: number) => void}
-						getRowValues={getRowValues as (item: unknown, index: number) => React.ReactNode[]}
+						data={studentsWithTotal}
+						onRowPress={handleRowPress}
+						isEditing={isEditingNotes}
+						onSetEditing={setIsEditingNotes}
+						onGradeUpdate={handleGradeUpdate}
+						getActivityIdByIndex={getActivityIdByIndex}
 						maxHeight={'70vh'}
 						cellWidth={90}
 						maxWidth="85vw"
 						alignSelf="center"
 						containerBgColor="white"
 						containerBorderRadius={`${theme.sizes.md}px`}
-						isEditing={isEditingNotes}
-						editableColumns={getEditableColumns()}
-						onCellValueChange={handleCellValueChange}
 					/>
 				)}
 
