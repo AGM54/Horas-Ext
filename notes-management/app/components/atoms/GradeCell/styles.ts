@@ -4,7 +4,7 @@ interface GradeCellContainerProps {
   isHovered?: boolean;
 }
 
-export const GradeCellContainer = styled.div<GradeCellContainerProps>(({ theme, isHovered }) => ({
+export const GradeCellContainer = styled.div<GradeCellContainerProps>(({ theme }) => ({
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
@@ -14,8 +14,8 @@ export const GradeCellContainer = styled.div<GradeCellContainerProps>(({ theme, 
 }));
 
 export const EditableInput = styled.input(({ theme }) => ({
-  width: '40px',
-  padding: '2px 4px',
+  paddingHorizontal: theme.scale(1),
+  width: theme.scale(30),
   border: `1px solid ${theme.colors.G3}`,
   borderRadius: '4px',
   backgroundColor: 'white',

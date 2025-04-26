@@ -71,7 +71,7 @@ const GradeCell: React.FC<GradeCellProps> = ({
   
   // Create an editable component to render inside TableCell
   const editableContent = (
-    <GradeCellContainer isHovered={isHovered}>
+    <GradeCellContainer>
       <EditableInput
         type="text"
         value={inputValue}
@@ -81,7 +81,7 @@ const GradeCell: React.FC<GradeCellProps> = ({
         onClick={(e) => e.stopPropagation()} // Prevent row click when clicking on input
       />
       {/* The span will inherit color from GradeCellContainer which inherits from TableCell */}
-      <span style={{ marginLeft: '4px', color: 'inherit' }}>{` / ${maxScore}`}</span>
+      <span style={{color: 'inherit' }}>{` / ${maxScore}`}</span>
     </GradeCellContainer>
   );
   
