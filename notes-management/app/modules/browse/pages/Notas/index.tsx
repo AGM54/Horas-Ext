@@ -4,7 +4,7 @@ import { ChevronDown, PencilLine, PlusCircle } from "lucide-react";
 import components from "~/components";
 import type { CourseData, StudentGrade } from "~/interfaces/grades";
 import { useTheme } from "@emotion/react";
-import useNotesScreen from "~/hooks/useNotesScreen";
+import useNotesScreen from "~/hooks/useGradesScreen";
 import { NotasContainer, NotasContent } from "./styles";
 import EditableTable from "~/components/organisms/EditableTable";
 const { Text, Button } = components;
