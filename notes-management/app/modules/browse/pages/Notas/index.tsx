@@ -4,9 +4,10 @@ import { ChevronDown, PencilLine, PlusCircle } from "lucide-react";
 import components from "~/components";
 import type { CourseData, StudentGrade } from "~/interfaces/grades";
 import { useTheme } from "@emotion/react";
-import useNotesScreen from "~/hooks/useGradesScreen";
+import useNotesScreen from "~/hooks/useNotesScreen";
 import { NotasContainer, NotasContent } from "./styles";
-const { Text, Button, Table } = components;
+import EditableTable from "~/components/organisms/EditableTable";
+const { Text, Button } = components;
 
 export default function NotasPage() {
 	const {
@@ -29,7 +30,24 @@ export default function NotasPage() {
 	} = useNotesScreen();
 
 	const theme = useTheme()
+	const [isEditingNotes, setIsEditingNotes] = useState(false);
 
+	// Calculate which columns are editable (all activity columns except student name and total)
+	const getEditableColumns = () => {
+		if (!currentCourseData) return [];
+		
+		// Return all column indices except first (student name) and last (total)
+		return Array.from(
+			{ length: currentCourseData.activities.length },
+			(_, i) => i + 1
+		);
+	};
+
+	// Handle cell value changes when editing
+	const handleCellValueChange = (rowIndex: number, colIndex: number, newValue: string) => {
+		console.log(`Changed value at row ${rowIndex}, column ${colIndex} to: ${newValue}`);
+		// TODO: Call the API for update
+	};
 
 	return (
 		<NotasContainer>
@@ -40,11 +58,11 @@ export default function NotasPage() {
 
 					{/* Botones */}
 					<div className="flex gap-4">
-						<Button variant="secondary" className="flex items-center gap-2" style={{ whiteSpace: 'nowrap', paddingLeft: '10px', paddingRight: '10px' }}>
+						<Button variant="secondary" className="flex items-center gap-2" style={{ whiteSpace: 'nowrap', paddingLeft: '10px', paddingRight: '10px' }} onClick={() => setIsEditingNotes(!isEditingNotes)}>
 							<PencilLine className="h-4 w-4" style={{ color: theme.colors.primaryDark }} />
-							Editar Notas
+							{isEditingNotes ? "Guardar Notas" : "Editar Notas"}
 						</Button>
-						<Button variant="secondary" className="flex items-center gap-2" style={{ whiteSpace: 'nowrap', paddingLeft: '10px', paddingRight: '10px' }}>
+						<Button variant="secondary" className="flex items-center gap-2">
 							<PlusCircle className="h-4 w-4" style={{ color: theme.colors.primaryDark }} />
 							Nueva Actividad
 						</Button>
@@ -83,16 +101,20 @@ export default function NotasPage() {
 				</div>
 
 				{studentsWithTotal.length > 0 && (
-					<Table
+					<EditableTable
 						headers={getTableHeaders()}
 						data={studentsWithTotal as StudentGrade[]}
 						onRowPress={handleRowPress as (item: unknown, index?: number) => void}
 						getRowValues={getRowValues as (item: unknown, index: number) => React.ReactNode[]}
 						maxHeight={'70vh'}
+						cellWidth={90}
 						maxWidth="85vw"
 						alignSelf="center"
 						containerBgColor="white"
 						containerBorderRadius={`${theme.sizes.md}px`}
+						isEditing={isEditingNotes}
+						editableColumns={getEditableColumns()}
+						onCellValueChange={handleCellValueChange}
 					/>
 				)}
 
