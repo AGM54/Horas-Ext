@@ -1,12 +1,17 @@
 import styled from "@emotion/styled";
 
-export const GradeCellContainer = styled.div({
+interface GradeCellContainerProps {
+  isHovered?: boolean;
+}
+
+export const GradeCellContainer = styled.div<GradeCellContainerProps>(({ theme, isHovered }) => ({
   display: 'flex',
   alignItems: 'center',
   justifyContent: 'center',
   width: '100%',
   height: '100%',
-});
+  color: 'inherit',
+}));
 
 export const EditableInput = styled.input(({ theme }) => ({
   width: '40px',
@@ -17,6 +22,7 @@ export const EditableInput = styled.input(({ theme }) => ({
   textAlign: 'center',
   fontSize: 'inherit',
   fontFamily: 'inherit',
+  color: theme.colors.primaryDark,
   '&:focus': {
     outline: 'none',
     border: `1px solid ${theme.colors.primary}`,
