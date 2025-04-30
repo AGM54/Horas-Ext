@@ -22,6 +22,7 @@ export const CellWrapper = styled.td<CellWrapperProps>(({ theme, fixed, width, h
 		overflow: 'hidden',
 		textOverflow: 'ellipsis',
 		backgroundColor: isHovered ? theme.colors.primaryDark : backgroundColor,
+		borderColor: isHovered ? theme.colors.primaryDark : backgroundColor,
 		color: isHovered ? theme.colors.white : theme.colors.primaryDark,
 		// Pass hover state to children via CSS variables
 		'--hovered-color': isHovered ? theme.colors.white : theme.colors.primaryDark,
@@ -39,7 +40,6 @@ export const CellWrapper = styled.td<CellWrapperProps>(({ theme, fixed, width, h
 			position: 'sticky',
 			left: 0,
 			zIndex: 2,
-			borderRight: `1px solid ${theme.colors.G3}`,
 			boxShadow: '2px 0 5px rgba(0,0,0,0.05)',
 			backgroundColor: isHovered ? theme.colors.primaryDark : backgroundColor || 'inherit'
 		};
@@ -51,7 +51,6 @@ export const CellWrapper = styled.td<CellWrapperProps>(({ theme, fixed, width, h
 			position: 'sticky',
 			right: 0,
 			zIndex: 1,
-			borderLeft: `1px solid ${theme.colors.G3}`,
 			boxShadow: '-2px 0 5px rgba(0,0,0,0.05)',
 			backgroundColor: isHovered ? theme.colors.primaryDark : backgroundColor || 'inherit'
 		};
