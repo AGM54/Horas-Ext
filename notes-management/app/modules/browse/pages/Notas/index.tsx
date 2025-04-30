@@ -148,7 +148,7 @@ export default function NotasPage() {
 						onGradeUpdate={handleGradeUpdate}
 						getActivityIdByIndex={getActivityIdByIndex}
 						maxHeight={'70vh'}
-						cellWidth={90}
+						cellWidth={theme.scale(150)}
 						maxWidth="85vw"
 						alignSelf="center"
 						containerBgColor="white"
