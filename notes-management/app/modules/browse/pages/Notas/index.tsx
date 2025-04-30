@@ -56,7 +56,7 @@ export default function NotasPage() {
 					<Text variant="body">Curso:</Text>
 					<div className="relative inline-block w-64 mt-2">
 						<button
-							className="w-full border border-white bg-transparent text-left py-2 px-4 rounded flex items-center justify-between"
+							className="w-full border border-white bg-transparent text-left py-2 px-4 rounded flex items-center justify-between cursor-pointer"
 							onClick={toggleMenu}
 						>
 							<span>{selectedCourse}</span>
