@@ -5,7 +5,6 @@ export const TableWrapper = styled.div(({ theme }) => ({
 	position: 'relative',
 	overflow: 'hidden',
 	border: `1px solid ${theme.colors.G3}`,
-	borderRadius: theme.sizes.xs,
 	boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
 }));
 
