@@ -1,9 +1,9 @@
 // app/components/molecules/SafeInput/index.tsx
 import React from "react";
-import Text from "../../atoms/Text";
 import Input from "../../atoms/Input";
+import Text from "../../atoms/Text";
 
-export interface SafeInputProps extends React.InputHTMLAttributes<HTMLInputElement> {
+interface Props extends React.InputHTMLAttributes<HTMLInputElement> {
   label: string;
   className?: string;
 }
@@ -12,17 +12,29 @@ export default function SafeInput({
   label,
   className = "",
   ...props
-}: SafeInputProps) {
+}: Props) {
   return (
-    <div className={`flex flex-col ${className}`}>
-      {/* Etiqueta */}
-      <Text variant="body" className="mb-1">
+    <div className={className}>
+      {/* Label always black */}
+      <Text variant="body" color="primaryDark">
         {label}
       </Text>
-      {/* Input propiamente dicho */}
+
+      {/* White background, black text, black placeholder */}
       <Input
         {...props}
-        className="border-b border-gray-400 py-1 focus:outline-none"
+        className="
+          mt-1
+          w-full
+          bg-white
+          text-black
+          placeholder-black
+          border
+          border-gray-300
+          rounded
+          px-3
+          py-2
+        "
       />
     </div>
   );

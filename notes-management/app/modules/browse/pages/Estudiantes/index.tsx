@@ -5,14 +5,14 @@ import { useAppDispatch, useAppSelector } from "../../../../store/store";
 import { fetchStudents } from "../../../../store/studentsSlice";
 import { PlusCircle } from "lucide-react";
 import { useTheme } from "@emotion/react";
-import ModalForm from "~/components/molecules/ModalForm"; // ruta correcta
+import ModalForm from "~/components/molecules/ModalForm"; 
 
 const {
   Text,
   Table,
   Button,
   Select,
-  SafeInput, // átomo reutilizable
+  SafeInput, 
 } = components;
 
 export default function EstudiantesPage() {
@@ -22,11 +22,8 @@ export default function EstudiantesPage() {
   );
   const theme = useTheme();
 
-  // Filtros
   const [gradoFilter, setGradoFilter] = useState("Todos");
   const [cicloFilter, setCicloFilter] = useState("Actual");
-
-  // Estado del modal y campos del nuevo estudiante
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [nuevoNombre, setNuevoNombre] = useState("");
   const [nuevoCodigo, setNuevoCodigo] = useState("");
@@ -46,7 +43,6 @@ export default function EstudiantesPage() {
   ];
 
   const handleCrearEstudiante = () => {
-    // Aquí puedes hacer dispatch a tu slice para agregar el estudiante
     console.log("Estudiante nuevo:", { nombre: nuevoNombre, codigo: nuevoCodigo });
 
     // Reset
