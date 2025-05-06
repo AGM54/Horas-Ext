@@ -3,9 +3,10 @@ import tailwindcss from "@tailwindcss/vite";
 import { defineConfig } from "vite";
 import tsconfigPaths from "vite-tsconfig-paths";
 import path from 'path';
+import svgr from '@svgr/rollup';
 
 export default defineConfig({
-	plugins: [tailwindcss(), reactRouter(), tsconfigPaths()],
+	plugins: [ svgr(), tailwindcss(), reactRouter(), tsconfigPaths()],
 	resolve: {
 		alias: {
 			'@components': path.resolve(__dirname, './app/components'),
