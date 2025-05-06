@@ -1,3 +1,4 @@
+// app/modules/browse/pages/Estudiantes/index.tsx
 import React, { useState, useEffect } from "react";
 import components from "~/components";
 import { Container, Content } from "./styles";
@@ -5,14 +6,15 @@ import { useAppDispatch, useAppSelector } from "../../../../store/store";
 import { fetchStudents } from "../../../../store/studentsSlice";
 import { PlusCircle } from "lucide-react";
 import { useTheme } from "@emotion/react";
-import ModalForm from "~/components/molecules/ModalForm"; 
+import ModalForm from "~/components/molecules/ModalForm";
+import ModalMessage from "~/components/molecules/ModalMessage";  
 
 const {
   Text,
   Table,
   Button,
   Select,
-  SafeInput, 
+  SafeInput,
 } = components;
 
 export default function EstudiantesPage() {
@@ -22,11 +24,18 @@ export default function EstudiantesPage() {
   );
   const theme = useTheme();
 
+  // filtros
   const [gradoFilter, setGradoFilter] = useState("Todos");
   const [cicloFilter, setCicloFilter] = useState("Actual");
+
+  // formulario
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [nuevoNombre, setNuevoNombre] = useState("");
   const [nuevoCodigo, setNuevoCodigo] = useState("");
+
+  // mensaje de éxito
+  const [msgOpen, setMsgOpen] = useState(false);
+  const [msgText, setMsgText] = useState("");
 
   useEffect(() => {
     dispatch(fetchStudents());
@@ -45,10 +54,14 @@ export default function EstudiantesPage() {
   const handleCrearEstudiante = () => {
     console.log("Estudiante nuevo:", { nombre: nuevoNombre, codigo: nuevoCodigo });
 
-    // Reset
+    // cerrar formulario
+    setIsModalOpen(false);
+    // mostrar mensaje
+    setMsgText("Creado con éxito");
+    setMsgOpen(true);
+    // resetear campos
     setNuevoNombre("");
     setNuevoCodigo("");
-    setIsModalOpen(false);
   };
 
   return (
@@ -60,7 +73,6 @@ export default function EstudiantesPage() {
             <Text variant="H2">Estudiantes</Text>
             <Button
               variant="secondary"
-              fullWidth={false}
               className="inline-flex items-center gap-2 px-2 py-1"
               onClick={() => setIsModalOpen(true)}
             >
@@ -117,7 +129,7 @@ export default function EstudiantesPage() {
         </Content>
       </Container>
 
-      {/* Modal con formulario de estudiante */}
+      {/* Modal para crear estudiante */}
       <ModalForm
         isOpen={isModalOpen}
         title="Nuevo estudiante"
@@ -138,6 +150,14 @@ export default function EstudiantesPage() {
           className="mb-6"
         />
       </ModalForm>
+
+      {/* Modal genérico de mensaje de éxito */}
+      <ModalMessage
+        isOpen={msgOpen}
+        message={msgText}
+        onClose={() => setMsgOpen(false)}
+        confirmLabel="Ok"
+      />
     </>
   );
 }
