@@ -1,18 +1,41 @@
-import { useState } from "react";
+// app/components/molecules/SafeInput/index.tsx
+import React from "react";
 import Input from "../../atoms/Input";
+import Text from "../../atoms/Text";
 
-export default function PasswordInput(props: React.InputHTMLAttributes<HTMLInputElement>) {
-	const [show, setShow] = useState(false);
+interface Props extends React.InputHTMLAttributes<HTMLInputElement> {
+  label: string;
+  className?: string;
+}
 
-	return (
-		<div className="relative">
-			<Input {...props} type={show ? "text" : "password"} placeholder="Contraseña" />
-			<span
-				className="absolute right-3 top-2.5 text-gray-700 cursor-pointer"
-				onClick={() => setShow((prev) => !prev)}
-			>
-				{show ? "🙈" : "👁️"}
-			</span>
-		</div>
-	);
+export default function SafeInput({
+  label,
+  className = "",
+  ...props
+}: Props) {
+  return (
+    <div className={className}>
+      {/* Label always black */}
+      <Text variant="body" color="primaryDark">
+        {label}
+      </Text>
+
+      {/* White background, black text, black placeholder */}
+      <Input
+        {...props}
+        className="
+          mt-1
+          w-full
+          bg-white
+          text-black
+          placeholder-black
+          border
+          border-gray-300
+          rounded
+          px-3
+          py-2
+        "
+      />
+    </div>
+  );
 }

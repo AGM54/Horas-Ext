@@ -1,68 +1,81 @@
+// app/store/store.ts
+
 import { configureStore } from '@reduxjs/toolkit';
 import authReducer from './authSlice';
-import notesScreenReducer from './notesSlice'
+import notesScreenReducer from './notesSlice';
+import studentsReducer from './studentsSlice';
 
-// Check if we're in a browser environment
+import { useDispatch, useSelector } from 'react-redux';
+import type { TypedUseSelectorHook } from 'react-redux';
+
+//
+// 1) Detectamos si estamos en browser para usar localStorage
+//
 const isBrowser = typeof window !== 'undefined';
 
-// Load auth state from localStorage
+//
+// 2) Cargamos el estado de auth desde localStorage (si existe)
+//
 const loadAuthState = () => {
-	if (!isBrowser) return undefined;
-
-	try {
-		const serializedState = localStorage.getItem('authState');
-		console.log('Initial auth state from localStorage:', serializedState);
-
-		if (serializedState === null) return undefined;
-
-		const parsedState = JSON.parse(serializedState);
-		console.log('Parsed auth state:', parsedState);
-		return parsedState;
-	} catch (err) {
-		console.error('Error loading auth state from localStorage:', err);
-		// Clear potentially corrupted state
-		localStorage.removeItem('authState');
-		return undefined;
-	}
+  if (!isBrowser) return undefined;
+  try {
+    const serialized = localStorage.getItem('authState');
+    if (serialized === null) return undefined;
+    return JSON.parse(serialized);
+  } catch (err) {
+    console.error('Error loading auth state:', err);
+    localStorage.removeItem('authState');
+    return undefined;
+  }
 };
 
-// Initial auth state from localStorage or default
+//
+// 3) Pre-loaded state con auth precargado o valores por defecto
+//
 const preloadedState = {
-	auth: loadAuthState() || {
-		user: null,
-		isAuthenticated: false,
-		token: null
-	},
+  auth: loadAuthState() || {
+    user: null,
+    isAuthenticated: false,
+    token: null,
+  },
 };
 
-// Create store with preloaded state
+//
+// 4) Creamos el store con todos los reducers
+//
 export const store = configureStore({
-	reducer: {
-		auth: authReducer,
-		notes: notesScreenReducer
-	},
-	preloadedState
+  reducer: {
+    auth: authReducer,
+    notes: notesScreenReducer,
+    students: studentsReducer,
+  },
+  preloadedState,
 });
 
-// Save auth state to localStorage when it changes
+//
+// 5) Cada vez que cambie auth, lo guardamos en localStorage
+//
 if (isBrowser) {
-	store.subscribe(() => {
-		try {
-			const authState = store.getState().auth;
+  store.subscribe(() => {
+    try {
+      const authState = store.getState().auth;
+      localStorage.setItem('authState', JSON.stringify(authState));
+    } catch (err) {
+      console.error('Error saving auth state:', err);
+    }
+  });
 
-			// Only save if there's actual state to save
-			if (authState) {
-				console.log('Saving auth state to localStorage:', authState);
-				localStorage.setItem('authState', JSON.stringify(authState));
-			}
-		} catch (err) {
-			console.error('Error saving auth state to localStorage:', err);
-		}
-	});
-
-	// Log initial state for debugging
-	console.log('Initial Redux state:', store.getState());
+  console.log('Initial Redux state:', store.getState());
 }
 
+//
+// 6) Exportamos tipos de estado y dispatch para poder usarlos en hooks
+//
 export type RootState = ReturnType<typeof store.getState>;
-export type AppDispatch = typeof store.dispatch; 
+export type AppDispatch = typeof store.dispatch;
+
+//
+// 7) Por último, definimos nuestros hooks tipados
+//
+export const useAppDispatch = () => useDispatch<AppDispatch>();
+export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector;

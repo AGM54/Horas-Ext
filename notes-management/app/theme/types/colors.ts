@@ -1,4 +1,6 @@
 export interface Colors {
+    black: any;
+    gray: any;
 	// primary
 	primary: string;
 	primaryDark: string;
