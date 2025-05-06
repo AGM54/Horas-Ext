@@ -1,12 +1,16 @@
 import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import Swal from 'sweetalert2';
 import {
 	setCourses,
 	setSelectedCourse,
 	setCurrentCourseData,
-	setStudentsWithTotal
+	setStudentsWithTotal,
+	updateStudentGrade,
+	addActivityToCourse
 } from '~/store/notesSlice';
 import type { RootState } from '~/store';
+import type { Activity } from '~/interfaces/grades';
 
 // Mock data - this would likely come from an API in a real app
 import { mockCoursesData } from '~/mocks';
@@ -88,6 +92,7 @@ export default function useNotesScreen() {
 			const gradeEntry = student.grades.find(grade => grade.activityId === activity.id);
 			return `${gradeEntry?.score || 0} / ${activity.maxScore}`;
 		});
+		
 		const totalMaxScore = currentCourseData.activities.reduce((sum, activity) => sum + activity.maxScore, 0);
 
 		return [
@@ -97,8 +102,63 @@ export default function useNotesScreen() {
 		];
 	};
 
+	// Function to handle grade updates
+	const handleGradeUpdate = (studentId: string, activityId: string, score: number) => {
+		dispatch(updateStudentGrade({ studentId, activityId, score }));
+	};
+
+	// Get activity ID by index position
+	const getActivityIdByIndex = (index: number) => {
+		if (!currentCourseData || !currentCourseData.activities[index]) {
+			return '';
+		}
+		return currentCourseData.activities[index].id;
+	};
+
 	const handleRowPress = (student: StudentGrade) => {
 		console.log(`Seleccionado estudiante: ${student.name}`);
+	};
+
+	const handleNewActivity = async (activityName: string, points: number) => {
+		if (!currentCourseData) {
+			await Swal.fire({
+				icon: 'error',
+				title: 'Error',
+				text: 'No hay un curso seleccionado',
+				confirmButtonColor: '#203d5e'
+			});
+			return;
+		}
+
+		try {
+			// Create a new activity with a unique ID
+			const newActivity: Activity = {
+				id: `act${Date.now()}`, // Generate a unique ID
+				name: activityName,
+				maxScore: points
+			};
+
+			// Dispatch the action to add the new activity
+			dispatch(addActivityToCourse({
+				courseId: currentCourseData.id,
+				activity: newActivity
+			}));
+
+			await Swal.fire({
+				icon: 'success',
+				title: '¡Éxito!',
+				text: 'La actividad ha sido creada correctamente',
+				confirmButtonColor: '#203d5e'
+			});
+		} catch (error) {
+			console.error('Error creating activity:', error);
+			await Swal.fire({
+				icon: 'error',
+				title: 'Error',
+				text: 'Hubo un error al crear la actividad',
+				confirmButtonColor: '#203d5e'
+			});
+		}
 	};
 
 	return {
@@ -113,6 +173,9 @@ export default function useNotesScreen() {
 		// Actions
 		handleCourseSelect,
 		toggleMenu,
+		handleGradeUpdate,
+		getActivityIdByIndex,
+		handleNewActivity,
 
 		// Table functions
 		getTableHeaders,

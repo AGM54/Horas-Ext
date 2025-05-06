@@ -20,7 +20,7 @@ const TableCell: React.FC<TableCellProps> = (
 	const isTextContent = typeof content === 'string' || typeof content === 'number'
 
 	return (
-		<CellWrapper key={cellKey} fixed={fixed} width={width} height={height} backgroundColor={backgroundColor}>
+		<CellWrapper key={cellKey} fixed={fixed} width={width} height={height} backgroundColor={backgroundColor} isHovered={isHovered}>
 			{isTextContent ? (
 				<Text
 					variant="body"

@@ -1,14 +1,23 @@
 import { mockCoursesData } from "@mocks/notes/mock";
-import React, { useEffect, useState } from "react";
-import { ChevronDown, PencilLine, PlusCircle } from "lucide-react";
+import React, { useState, useCallback, useRef } from "react";
+import { ChevronDown, PencilLine, PlusCircle, Save } from "lucide-react";
 import components from "~/components";
 import type { CourseData, StudentGrade } from "~/interfaces/grades";
 import { useTheme } from "@emotion/react";
 import useNotesScreen from "~/hooks/useGradesScreen";
 import { NotasContainer, NotasContent } from "./styles";
-const { Text, Button, Table } = components;
+import GradingTable from "~/components/organisms/GradingTable";
+import NewActivityModal from "./NewActivityModal";
+
+
+const { Text, Button } = components;
 
 export default function NotasPage() {
+	const [isEditingNotes, setIsEditingNotes] = useState(false);
+	const [isNewActivityModalOpen, setIsNewActivityModalOpen] = useState(false);
+	const theme = useTheme();
+	const debounceTimerRef = useRef<NodeJS.Timeout | null>(null);
+	
 	const {
 		// State
 		courses,
@@ -21,15 +30,52 @@ export default function NotasPage() {
 		// Actions
 		handleCourseSelect,
 		toggleMenu,
+		handleGradeUpdate,
+		getActivityIdByIndex,
 
 		// Table functions
 		getTableHeaders,
 		getRowValues,
-		handleRowPress
+		handleRowPress, 
+		handleNewActivity
 	} = useNotesScreen();
 
-	const theme = useTheme()
+	// This is the function that will be called when the "Editar Notas" button is clicked
+	const toggleEditMode = useCallback(() => {
+		// Clear any existing timers
+		if (debounceTimerRef.current) {
+			clearTimeout(debounceTimerRef.current);
+		}
+		
+		// Set a debounce timer to prevent rapid toggling
+		debounceTimerRef.current = setTimeout(() => {
+			setIsEditingNotes(prevState => !prevState);
+			debounceTimerRef.current = null;
+		}, 100);
+	}, []);
 
+	// This is the function that will be called from the GradingTable when its internal editing state changes
+	const handleEditingChange = useCallback((editing: boolean) => {
+		// Prevent excessive updates
+		if (editing !== isEditingNotes) {
+			// Clear any existing timers
+			if (debounceTimerRef.current) {
+				clearTimeout(debounceTimerRef.current);
+			}
+			
+			// Set after a small delay to prevent race conditions
+			debounceTimerRef.current = setTimeout(() => {
+				setIsEditingNotes(editing);
+				debounceTimerRef.current = null;
+			}, 100);
+		}
+	}, [isEditingNotes]);
+
+	// Get the activity max scores
+	const getActivityMaxScores = () => {
+		if (!currentCourseData) return [];
+		return currentCourseData.activities.map(activity => activity.maxScore);
+	};
 
 	return (
 		<NotasContainer>
@@ -40,11 +86,29 @@ export default function NotasPage() {
 
 					{/* Botones */}
 					<div className="flex gap-4">
-						<Button variant="secondary" className="flex items-center gap-2" style={{ whiteSpace: 'nowrap', paddingLeft: '10px', paddingRight: '10px' }}>
-							<PencilLine className="h-4 w-4" style={{ color: theme.colors.primaryDark }} />
-							Editar Notas
+						<Button 
+							variant="secondary" 
+							className="flex items-center gap-2" 
+							style={{ whiteSpace: 'nowrap', paddingLeft: '10px', paddingRight: '10px' }} 
+							onClick={toggleEditMode}
+						>
+							{isEditingNotes ? (
+								<>
+									<Save className="h-4 w-4" style={{ color: theme.colors.primaryDark }} />
+									Guardar Notas
+								</>
+							) : (
+								<>
+									<PencilLine className="h-4 w-4" style={{ color: theme.colors.primaryDark }} />
+									Editar Notas
+								</>
+							)}
 						</Button>
-						<Button variant="secondary" className="flex items-center gap-2" style={{ whiteSpace: 'nowrap', paddingLeft: '10px', paddingRight: '10px' }}>
+						<Button 
+							variant="secondary" 
+							className="flex items-center gap-2"
+							onClick={() => setIsNewActivityModalOpen(true)}
+						>
 							<PlusCircle className="h-4 w-4" style={{ color: theme.colors.primaryDark }} />
 							Nueva Actividad
 						</Button>
@@ -82,13 +146,17 @@ export default function NotasPage() {
 					</div>
 				</div>
 
-				{studentsWithTotal.length > 0 && (
-					<Table
+				{studentsWithTotal.length > 0 && currentCourseData && (
+					<GradingTable
 						headers={getTableHeaders()}
-						data={studentsWithTotal as StudentGrade[]}
-						onRowPress={handleRowPress as (item: unknown, index?: number) => void}
-						getRowValues={getRowValues as (item: unknown, index: number) => React.ReactNode[]}
+						data={studentsWithTotal}
+						onRowPress={handleRowPress}
+						isEditing={isEditingNotes}
+						onSetEditing={handleEditingChange}
+						onGradeUpdate={handleGradeUpdate}
+						getActivityIdByIndex={getActivityIdByIndex}
 						maxHeight={'70vh'}
+						cellWidth={theme.scale(150)}
 						maxWidth="85vw"
 						alignSelf="center"
 						containerBgColor="white"
@@ -97,6 +165,11 @@ export default function NotasPage() {
 				)}
 
 			</NotasContent>
+			<NewActivityModal 
+				isOpen={isNewActivityModalOpen}
+				onClose={() => setIsNewActivityModalOpen(false)}
+				onSubmit={handleNewActivity}
+			/>
 		</NotasContainer>
 	);
 }

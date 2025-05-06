@@ -67,7 +67,7 @@ function Table<T>({
 				maxWidth: maxWidth,
 				alignSelf: alignSelf,
 				backgroundColor: containerBgColor || 'white',
-				borderRadius: containerBorderRadius || theme.sizes.xs
+				borderRadius: containerBorderRadius || theme.sizes.xxxs
 			}}
 		>
 			<ScrollableColumns maxHeight={maxHeight}>

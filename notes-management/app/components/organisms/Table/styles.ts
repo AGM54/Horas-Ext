@@ -5,7 +5,6 @@ export const TableWrapper = styled.div(({ theme }) => ({
 	position: 'relative',
 	overflow: 'hidden',
 	border: `1px solid ${theme.colors.G3}`,
-	borderRadius: theme.sizes.xs,
 	boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
 }));
 
@@ -33,7 +32,7 @@ export const ScrollableColumns = styled.div<ScrollableColumnsProps>(({ theme, ma
 }));
 
 export const StyledTable = styled.table(({ theme }) => ({
-	width: 'auto',
+	width: '100%',
 	maxWidth: 'none',
 	borderCollapse: 'collapse',
 	tableLayout: 'fixed',
@@ -55,8 +54,7 @@ export const TableHeader = styled.th(({ theme }) => ({
 export const FixedHeaderLeft = styled(TableHeader)(({ theme }) => ({
 	position: 'sticky',
 	left: 0,
-	zIndex: 2,
-	borderRight: `1px solid ${theme.colors.G3}`,
+	zIndex: 3,
 	boxShadow: '2px 0 5px rgba(0,0,0,0.1)',
 }));
 
@@ -64,7 +62,6 @@ export const FixedHeaderRight = styled(TableHeader)(({ theme }) => ({
 	position: 'sticky',
 	right: 0,
 	zIndex: 2,
-	borderLeft: `1px solid ${theme.colors.G3}`,
 	boxShadow: '-2px 0 5px rgba(0,0,0,0.1)',
 }));
 
