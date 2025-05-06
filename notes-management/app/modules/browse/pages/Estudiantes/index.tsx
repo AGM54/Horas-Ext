@@ -1,5 +1,3 @@
-// app/modules/browse/pages/Estudiantes/index.tsx
-
 import { useState, useEffect } from "react";
 import components from "~/components";
 import { Container, Content } from "./styles";
@@ -36,13 +34,14 @@ export default function EstudiantesPage() {
 
   return (
     <Container>
-      <Content>
+      <Content style={{ overflowX: "hidden" }}>
         {/* Header */}
         <div className="flex justify-between items-center mb-4">
           <Text variant="H2">Estudiantes</Text>
           <Button
             variant="secondary"
-            className="inline-flex items-center gap-2 px-2 py-1 w-auto"
+            fullWidth={false}
+            className="inline-flex items-center gap-2 px-2 py-1"
             onClick={() => {
               /* abrir modal */
             }}
@@ -56,7 +55,7 @@ export default function EstudiantesPage() {
         </div>
 
         {/* Filters */}
-        <div className="flex gap-4 mb-4">
+        <div className="flex gap-4 mb-4 flex-wrap">
           <div>
             <Text variant="body">Grado</Text>
             <Select
@@ -75,27 +74,29 @@ export default function EstudiantesPage() {
           </div>
         </div>
 
-        {/* Table */}
+        {/* Tabla contenida */}
         {loading ? (
           <Text variant="body">Cargando...</Text>
         ) : (
-          <Table
-            headers={headers}
-            data={estudiantes}
-            getRowValues={(e) => [
-              e.nombre,
-              e.grado,
-              e.materia1 ?? "N/A",
-              e.materia2 ?? "N/A",
-              e.materia3 ?? "N/A",
-              e.matricula,
-              e.promedio.toFixed(2),
-            ]}
-            cellHeight={48}
-            onRowPress={(item) => {
-              console.log("Fila clickeada:", item);
-            }}
-          />
+          <div className="overflow-auto max-w-full">
+            <Table
+              headers={headers}
+              data={estudiantes}
+              getRowValues={(e) => [
+                e.nombre,
+                e.grado,
+                e.materia1 ?? "N/A",
+                e.materia2 ?? "N/A",
+                e.materia3 ?? "N/A",
+                e.matricula,
+                e.promedio.toFixed(2),
+              ]}
+              cellHeight={48}
+              onRowPress={(item) => {
+                console.log("Fila clickeada:", item);
+              }}
+            />
+          </div>
         )}
       </Content>
     </Container>
