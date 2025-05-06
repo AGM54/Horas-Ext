@@ -7,11 +7,14 @@ import { useTheme } from "@emotion/react";
 import useNotesScreen from "~/hooks/useGradesScreen";
 import { NotasContainer, NotasContent } from "./styles";
 import GradingTable from "~/components/organisms/GradingTable";
+import NewActivityModal from "./NewActivityModal";
+
 
 const { Text, Button } = components;
 
 export default function NotasPage() {
 	const [isEditingNotes, setIsEditingNotes] = useState(false);
+	const [isNewActivityModalOpen, setIsNewActivityModalOpen] = useState(false);
 	const theme = useTheme();
 	const debounceTimerRef = useRef<NodeJS.Timeout | null>(null);
 	
@@ -33,7 +36,8 @@ export default function NotasPage() {
 		// Table functions
 		getTableHeaders,
 		getRowValues,
-		handleRowPress
+		handleRowPress, 
+		handleNewActivity
 	} = useNotesScreen();
 
 	// This is the function that will be called when the "Editar Notas" button is clicked
@@ -100,7 +104,11 @@ export default function NotasPage() {
 								</>
 							)}
 						</Button>
-						<Button variant="secondary" className="flex items-center gap-2">
+						<Button 
+							variant="secondary" 
+							className="flex items-center gap-2"
+							onClick={() => setIsNewActivityModalOpen(true)}
+						>
 							<PlusCircle className="h-4 w-4" style={{ color: theme.colors.primaryDark }} />
 							Nueva Actividad
 						</Button>
@@ -157,6 +165,11 @@ export default function NotasPage() {
 				)}
 
 			</NotasContent>
+			<NewActivityModal 
+				isOpen={isNewActivityModalOpen}
+				onClose={() => setIsNewActivityModalOpen(false)}
+				onSubmit={handleNewActivity}
+			/>
 		</NotasContainer>
 	);
 }

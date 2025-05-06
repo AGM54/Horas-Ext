@@ -19,3 +19,12 @@ export const NotasContent = styled.div(({ theme }) => ({
 	display: 'flex',
 	flexDirection: 'column',
 })); 
+
+//Modal styling
+export const ModalContainer = styled.div(({theme}) => ({
+	flex: 1,
+	padding: theme.sizes.sm,
+	justifyContent: 'center',
+	alignContent: 'center',
+	flexDirection: 'column'
+}))
