@@ -12,7 +12,7 @@ export default function Button({
 	children,
 	className = "",
 	variant = "primary",
-	fullWidth = true,
+	fullWidth = false,
 	...props
 }: ButtonProps) {
 	const baseStyles = "py-2 rounded font-medium transition";
