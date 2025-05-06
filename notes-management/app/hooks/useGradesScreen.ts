@@ -1,13 +1,16 @@
 import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
+import Swal from 'sweetalert2';
 import {
 	setCourses,
 	setSelectedCourse,
 	setCurrentCourseData,
 	setStudentsWithTotal,
-	updateStudentGrade
+	updateStudentGrade,
+	addActivityToCourse
 } from '~/store/notesSlice';
 import type { RootState } from '~/store';
+import type { Activity } from '~/interfaces/grades';
 
 // Mock data - this would likely come from an API in a real app
 import { mockCoursesData } from '~/mocks';
@@ -116,6 +119,48 @@ export default function useNotesScreen() {
 		console.log(`Seleccionado estudiante: ${student.name}`);
 	};
 
+	const handleNewActivity = async (activityName: string, points: number) => {
+		if (!currentCourseData) {
+			await Swal.fire({
+				icon: 'error',
+				title: 'Error',
+				text: 'No hay un curso seleccionado',
+				confirmButtonColor: '#203d5e'
+			});
+			return;
+		}
+
+		try {
+			// Create a new activity with a unique ID
+			const newActivity: Activity = {
+				id: `act${Date.now()}`, // Generate a unique ID
+				name: activityName,
+				maxScore: points
+			};
+
+			// Dispatch the action to add the new activity
+			dispatch(addActivityToCourse({
+				courseId: currentCourseData.id,
+				activity: newActivity
+			}));
+
+			await Swal.fire({
+				icon: 'success',
+				title: '¡Éxito!',
+				text: 'La actividad ha sido creada correctamente',
+				confirmButtonColor: '#203d5e'
+			});
+		} catch (error) {
+			console.error('Error creating activity:', error);
+			await Swal.fire({
+				icon: 'error',
+				title: 'Error',
+				text: 'Hubo un error al crear la actividad',
+				confirmButtonColor: '#203d5e'
+			});
+		}
+	};
+
 	return {
 		// State
 		courses,
@@ -130,6 +175,7 @@ export default function useNotesScreen() {
 		toggleMenu,
 		handleGradeUpdate,
 		getActivityIdByIndex,
+		handleNewActivity,
 
 		// Table functions
 		getTableHeaders,

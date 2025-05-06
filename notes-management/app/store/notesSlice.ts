@@ -1,5 +1,5 @@
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
-import type { CourseData, StudentGrade } from '~/interfaces/grades';
+import type { Activity, CourseData, StudentGrade } from '~/interfaces/grades';
 
 interface NotesState {
 	courses: string[];
@@ -13,6 +13,11 @@ interface UpdateGradePayload {
 	studentId: string;
 	activityId: string;
 	score: number;
+}
+
+interface NewActivityPayload {
+	courseId: string;
+	activity: Activity;
 }
 
 const initialState: NotesState = {
@@ -79,6 +84,25 @@ const notesSlice = createSlice({
 				}
 			}
 		},
+		addActivityToCourse: (state, action: PayloadAction<NewActivityPayload>) => {
+			const { courseId, activity } = action.payload;
+			
+			// Update current course data if it matches
+			if (state.currentCourseData && state.currentCourseData.id === courseId) {
+				state.currentCourseData.activities.push(activity);
+				
+				// Add empty grades for the new activity to all students
+				state.currentCourseData.students.forEach(student => {
+					student.grades.push({ activityId: activity.id, score: 0 });
+				});
+				
+				// Update studentsWithTotal to include the new activity
+				state.studentsWithTotal = state.currentCourseData.students.map(student => ({
+					...student,
+					total: student.grades.reduce((sum, grade) => sum + grade.score, 0)
+				}));
+			}
+		}
 	},
 });
 
@@ -87,7 +111,8 @@ export const {
 	setSelectedCourse,
 	setCurrentCourseData,
 	setStudentsWithTotal,
-	updateStudentGrade
+	updateStudentGrade,
+	addActivityToCourse
 } = notesSlice.actions;
 
 export default notesSlice.reducer;
