@@ -8,6 +8,7 @@ export const defaultColors : Colors  = {
     orange: "#FFA64D",
     yellow: "#FFD966",
     G0: "#E9EDF5",
+    warning: "#FFA64D", 
     G1: "#C7CAD1",
     G2: "#B3B6BD",
     G3: "#A0A3A8",

@@ -1,4 +1,5 @@
 export interface Colors {
+    warning: string | undefined;
     black: any;
     gray: any;
 	// primary
@@ -10,7 +11,7 @@ export interface Colors {
 	// secondary
 	orange: string;
 	yellow: string;
-
+	
 	// greys
 	G0: string;
 	G1: string;
