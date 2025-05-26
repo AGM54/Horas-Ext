@@ -1,4 +1,5 @@
 // app/modules/browse/pages/Estudiantes/index.tsx
+
 import React, { useState, useEffect } from "react";
 import components from "~/components";
 import { Container, Content } from "./styles";
@@ -6,8 +7,11 @@ import { useAppDispatch, useAppSelector } from "../../../../store/store";
 import { fetchStudents } from "../../../../store/studentsSlice";
 import { PlusCircle } from "lucide-react";
 import { useTheme } from "@emotion/react";
-import ModalForm from "~/components/molecules/ModalForm";
-import ModalMessage from "~/components/molecules/ModalMessage";  
+import { useNavigate } from "react-router-dom";
+
+// Importa los modales directamente
+import ModalForm    from "~/components/molecules/ModalForm";
+import ModalMessage from "~/components/molecules/ModalMessage";
 
 const {
   Text,
@@ -23,13 +27,14 @@ export default function EstudiantesPage() {
     (state) => state.students
   );
   const theme = useTheme();
+  const navigate = useNavigate();
 
   // filtros
   const [gradoFilter, setGradoFilter] = useState("Todos");
   const [cicloFilter, setCicloFilter] = useState("Actual");
 
-  // formulario
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  // formulario de creación
+  const [isFormOpen, setIsFormOpen] = useState(false);
   const [nuevoNombre, setNuevoNombre] = useState("");
   const [nuevoCodigo, setNuevoCodigo] = useState("");
 
@@ -52,14 +57,10 @@ export default function EstudiantesPage() {
   ];
 
   const handleCrearEstudiante = () => {
-    console.log("Estudiante nuevo:", { nombre: nuevoNombre, codigo: nuevoCodigo });
-
-    // cerrar formulario
-    setIsModalOpen(false);
-    // mostrar mensaje
+    // ...tu lógica para crear (mock o dispatch real)...
+    setIsFormOpen(false);
     setMsgText("Creado con éxito");
     setMsgOpen(true);
-    // resetear campos
     setNuevoNombre("");
     setNuevoCodigo("");
   };
@@ -74,7 +75,7 @@ export default function EstudiantesPage() {
             <Button
               variant="secondary"
               className="inline-flex items-center gap-2 px-2 py-1"
-              onClick={() => setIsModalOpen(true)}
+              onClick={() => setIsFormOpen(true)}
             >
               <PlusCircle
                 className="h-4 w-4"
@@ -121,19 +122,22 @@ export default function EstudiantesPage() {
                   e.matricula,
                   e.promedio.toFixed(2),
                 ]}
+                onRowPress={(item) => {
+                  // Navegar a /dashboard/estudiantes/:id
+                  navigate(item.id);
+                }}
                 cellHeight={48}
-                onRowPress={(item) => console.log("Fila clickeada:", item)}
               />
             </div>
           )}
         </Content>
       </Container>
 
-      {/* Modal para crear estudiante */}
+      {/* Modal de creación */}
       <ModalForm
-        isOpen={isModalOpen}
+        isOpen={isFormOpen}
         title="Nuevo estudiante"
-        onClose={() => setIsModalOpen(false)}
+        onClose={() => setIsFormOpen(false)}
         onSubmit={handleCrearEstudiante}
         submitLabel="Crear estudiante"
       >
