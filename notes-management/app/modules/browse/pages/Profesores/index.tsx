@@ -1,16 +1,20 @@
 // app/modules/browse/pages/Maestros/index.tsx
+
 import React, { useState, useEffect } from "react";
-import components from "~/components";
-import { Container, Content } from "./styles";
-import { mockMaestros, type Maestro } from "~/mocks/maestros";
 import { useNavigate } from "react-router-dom";
 import { PlusCircle } from "lucide-react";
 import { useTheme } from "@emotion/react";
+
+import Text      from "~/components/atoms/Text";
+import Table     from "~/components/organisms/Table";
+import Button    from "~/components/atoms/Button";
+import Select    from "~/components/atoms/Select";
+import SafeInput from "~/components/molecules/SafeInput";
 import ModalForm from "~/components/molecules/ModalForm";
 import ModalMessage from "~/components/molecules/ModalMessage";
-import SafeInput from "~/components/molecules/SafeInput";
 
-const { Text, Table, Button, Select } = components;
+import { Container, Content } from "./styles";
+import { mockMaestros, type Maestro } from "~/mocks/maestros";
 
 export default function MaestrosPage() {
   const theme = useTheme();
@@ -21,12 +25,12 @@ export default function MaestrosPage() {
   const [gradoFilter, setGradoFilter] = useState("Todos");
   const [cicloFilter, setCicloFilter] = useState("Actual");
 
-  // estado del modal de creación
+  // modal creación
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [nuevoNombre, setNuevoNombre] = useState("");
   const [nuevoCorreo, setNuevoCorreo] = useState("");
 
-  // mensaje de éxito
+  // modal éxito
   const [msgOpen, setMsgOpen] = useState(false);
   const [msgText, setMsgText] = useState("");
 
@@ -36,13 +40,12 @@ export default function MaestrosPage() {
 
   const headers = ["Maestro", "Grado", "Materias"];
   const filtered = list
-    .filter((m) => gradoFilter === "Todos" || m.grado === gradoFilter)
-    .filter((m) => cicloFilter === "Actual");
+    .filter(m => gradoFilter === "Todos" || m.grado === gradoFilter)
+    .filter(m => cicloFilter === "Actual"); // ajusta tu lógica de ciclo si es necesario
 
   const handleCrearMaestro = () => {
-    //  API call
     console.log("Nuevo maestro:", { nombre: nuevoNombre, correo: nuevoCorreo });
-
+    // aquí tu dispatch o API call...
     setIsFormOpen(false);
     setMsgText("Maestro creado con éxito");
     setMsgOpen(true);
@@ -76,7 +79,7 @@ export default function MaestrosPage() {
               <Text variant="body">Grado</Text>
               <Select
                 value={gradoFilter}
-                onChange={(e) => setGradoFilter(e.target.value)}
+                onChange={e => setGradoFilter(e.target.value)}
                 options={["Todos", "Primero Básico", "Segundo Básico"]}
               />
             </div>
@@ -84,7 +87,7 @@ export default function MaestrosPage() {
               <Text variant="body">Ciclo</Text>
               <Select
                 value={cicloFilter}
-                onChange={(e) => setCicloFilter(e.target.value)}
+                onChange={e => setCicloFilter(e.target.value)}
                 options={["Actual", "Anterior"]}
               />
             </div>
@@ -95,14 +98,13 @@ export default function MaestrosPage() {
             <Table
               headers={headers}
               data={filtered}
-              getRowValues={(m) => [
+              getRowValues={m => [
                 m.nombre,
                 m.grado,
                 m.materias.join(", "),
               ]}
-              onRowPress={(m) => navigate(`/dashboard/maestros/${m.id}`)}
+              onRowPress={m => navigate(`/dashboard/profesores/${m.id}`)}
               cellHeight={48}
-
               containerBgColor={theme.colors.primaryDark}
               containerBorderRadius={`${theme.sizes.xs}px`}
               maxWidth="fit-content"
@@ -111,7 +113,7 @@ export default function MaestrosPage() {
         </Content>
       </Container>
 
-      {/* Modal para crear maestro */}
+      {/* Modal de creación */}
       <ModalForm
         isOpen={isFormOpen}
         title="Nuevo maestro"
@@ -122,18 +124,18 @@ export default function MaestrosPage() {
         <SafeInput
           label="Nombre"
           value={nuevoNombre}
-          onChange={(e) => setNuevoNombre(e.target.value)}
+          onChange={e => setNuevoNombre(e.target.value)}
           className="mb-4"
         />
         <SafeInput
           label="Correo"
           value={nuevoCorreo}
-          onChange={(e) => setNuevoCorreo(e.target.value)}
+          onChange={e => setNuevoCorreo(e.target.value)}
           className="mb-6"
         />
       </ModalForm>
 
-      {/* Modal genérico de mensaje de éxito */}
+      {/* Modal mensaje de éxito */}
       <ModalMessage
         isOpen={msgOpen}
         message={msgText}

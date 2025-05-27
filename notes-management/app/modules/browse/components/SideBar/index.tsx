@@ -18,7 +18,7 @@ const navItems: NavItem[] = [
   { label: "Cursos",      icon: <FaBook />,              path: "/dashboard/cursos" },
   { label: "Notas",       icon: <FaFileAlt />,           path: "/dashboard/notas" },
   { label: "Boletas",     icon: <FaFileAlt />,           path: "/dashboard/boletas" },
-  { label: "Maestros",    icon: <FaChalkboardTeacher />, path: "/dashboard/maestros" },
+  { label: "Maestros",    icon: <FaChalkboardTeacher />, path: "/dashboard/profesores" },
   { label: "Estudiantes", icon: <FaUserGraduate />,      path: "/dashboard/estudiantes" },
 ];
 
