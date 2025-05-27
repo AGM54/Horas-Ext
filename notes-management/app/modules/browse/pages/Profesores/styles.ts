@@ -1,3 +1,4 @@
+// app/modules/browse/pages/Maestros/styles.ts
 import styled from "@emotion/styled";
 
 export const Container = styled.div({
@@ -5,17 +6,14 @@ export const Container = styled.div({
   flexDirection: "column",
   width: "100%",
   height: "100%",
-  overflowX: "hidden",
 });
 
 export const Content = styled.div(({ theme }) => ({
   flex: 1,
   backgroundColor:  theme.colors.primaryDark,
-  color: "white",
   padding: theme.sizes.sm,
-  overflowY: "auto",       
+  overflowY: "auto",
   overflowX: "hidden",  
-  width: "100%",        
-  maxWidth: "100%",        
-  boxSizing: "border-box", 
+  width: "100%",
+  boxSizing: "border-box",
 }));
