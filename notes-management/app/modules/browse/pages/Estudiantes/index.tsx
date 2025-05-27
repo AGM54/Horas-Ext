@@ -8,8 +8,6 @@ import { fetchStudents } from "../../../../store/studentsSlice";
 import { PlusCircle } from "lucide-react";
 import { useTheme } from "@emotion/react";
 import { useNavigate } from "react-router-dom";
-
-// Importa los modales directamente
 import ModalForm    from "~/components/molecules/ModalForm";
 import ModalMessage from "~/components/molecules/ModalMessage";
 
@@ -57,7 +55,6 @@ export default function EstudiantesPage() {
   ];
 
   const handleCrearEstudiante = () => {
-    // ...tu lógica para crear (mock o dispatch real)...
     setIsFormOpen(false);
     setMsgText("Creado con éxito");
     setMsgOpen(true);

@@ -11,7 +11,7 @@ interface Props {
   onConfirm: () => void;
   cancelLabel?: string;
   confirmLabel?: string;
-  /** Añadimos children para que puedas pasarle el formulario */
+
   children?: React.ReactNode;
 }
 
