@@ -1,11 +1,12 @@
 // app/store/maestrosSlice.ts
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
+import type { PayloadAction } from "@reduxjs/toolkit";
 import { mockMaestros, type Maestro } from "../mocks/maestros";
 
 export const fetchMaestros = createAsyncThunk(
   "maestros/fetchAll",
   async () => {
-    await new Promise(r => setTimeout(r, 200));
+    await new Promise((r) => setTimeout(r, 200));
     return mockMaestros as Maestro[];
   }
 );
@@ -24,9 +25,21 @@ const initialState: MaestrosState = {
 const maestrosSlice = createSlice({
   name: "maestros",
   initialState,
-  reducers: {},
+  reducers: {
+    addMateria: (
+      state,
+      action: PayloadAction<{ id: string; materia: string }>
+    ) => {
+      const m = state.list.find((x) => x.id === action.payload.id);
+      if (m && action.payload.materia.trim()) {
+        m.materias.push(action.payload.materia.trim());
+      }
+    },
+  },
   extraReducers: (builder) => {
-    builder.addCase(fetchMaestros.pending, (s) => { s.loading = true });
+    builder.addCase(fetchMaestros.pending, (s) => {
+      s.loading = true;
+    });
     builder.addCase(fetchMaestros.fulfilled, (s, a) => {
       s.loading = false;
       s.list = a.payload;
@@ -38,4 +51,5 @@ const maestrosSlice = createSlice({
   },
 });
 
+export const { addMateria } = maestrosSlice.actions;
 export default maestrosSlice.reducer;

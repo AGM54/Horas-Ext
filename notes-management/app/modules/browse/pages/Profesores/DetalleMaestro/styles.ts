@@ -26,9 +26,11 @@ export const BackButton = styled.button`
   border: none;
   color: inherit;
   cursor: pointer;
-  &:hover {
-    opacity: 0.8;
-  }
+  &:hover { opacity: 0.8; }
+`;
+
+export const Content = styled.div`
+  /* envuelve InfoSection + tabla */
 `;
 
 export const InfoSection = styled.div`
@@ -53,12 +55,8 @@ export const YellowButton = styled(Button)`
   background-color: white;
   color: #fbbf24;
   border: 1px solid #fbbf24;
-  &:hover {
-    opacity: 0.8;
-  }
-  &:active {
-    background-color: white;
-  }
+  &:hover { opacity: 0.8; }
+  &:active { background-color: white; }
 `;
 
 export const Title = styled(Text)`
