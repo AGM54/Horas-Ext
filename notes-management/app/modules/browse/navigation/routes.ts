@@ -5,9 +5,9 @@ const browseRoutes = route(
   "dashboard",
   "modules/browse/components/DashboardContainer/index.tsx",
   [
-    route("cursos",      "modules/browse/pages/Cursos/index.tsx"),
-    route("notas",       "modules/browse/pages/Notas/index.tsx"),
-    route("boletas",     "modules/browse/pages/Boletas/index.tsx"),
+    route("boletas", "modules/browse/pages/Boletas/index.tsx"),
+    route("cursos",  "modules/browse/pages/Cursos/index.tsx"),
+    route("notas",   "modules/browse/pages/Notas/index.tsx"),
 
     // Lista de profesores bajo /dashboard/maestros
     route(
