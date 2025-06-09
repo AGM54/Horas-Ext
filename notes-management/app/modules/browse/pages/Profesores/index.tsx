@@ -41,11 +41,11 @@ export default function MaestrosPage() {
   const headers = ["Maestro", "Grado", "Materias"];
   const filtered = list
     .filter(m => gradoFilter === "Todos" || m.grado === gradoFilter)
-    .filter(m => cicloFilter === "Actual"); // ajusta tu lógica de ciclo si es necesario
+    .filter(m => cicloFilter === "Actual"); 
 
   const handleCrearMaestro = () => {
     console.log("Nuevo maestro:", { nombre: nuevoNombre, correo: nuevoCorreo });
-    // aquí tu dispatch o API call...
+
     setIsFormOpen(false);
     setMsgText("Maestro creado con éxito");
     setMsgOpen(true);

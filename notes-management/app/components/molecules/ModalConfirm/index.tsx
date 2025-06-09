@@ -3,15 +3,17 @@ import React from "react";
 import { useTheme } from "@emotion/react";
 import Text from "../../atoms/Text";
 import Button from "../../atoms/Button";
-import { X, AlertTriangle } from "lucide-react";
+import { AlertTriangle } from "lucide-react";
+import BaseModal from "../BaseModal/BaseModal";
+import * as S from "./styles";
 
 interface Props {
   isOpen: boolean;
   message: string;
   onCancel: () => void;
   onConfirm: () => void;
-  cancelLabel?: string;   // por defecto "Cancelar"
-  confirmLabel?: string;  // por defecto "Sí"
+  cancelLabel?: string;
+  confirmLabel?: string;
 }
 
 export default function ModalConfirm({
@@ -23,66 +25,43 @@ export default function ModalConfirm({
   confirmLabel = "Sí, desactivar",
 }: Props) {
   const theme = useTheme();
-  if (!isOpen) return null;
 
   return (
-    // Fondo oscuro translúcido
-    <div
-      className="fixed inset-0 z-50 flex items-center justify-center"
-      style={{ backgroundColor: "rgba(0, 0, 0, 0.6)" }}
-    >
-      <div
-        className="relative w-full max-w-sm rounded-xl bg-white p-6"
-        style={{ boxShadow: "0 4px 20px rgba(0, 0, 0, 0.15)" }}
+    <BaseModal isOpen={isOpen} onClose={onCancel}>
+      <S.IconWrapper>
+        <AlertTriangle size={48} color={theme.colors.warning} />
+      </S.IconWrapper>
+
+      <Text
+        variant="body"
+        className="mb-6 text-center text-lg"
+        style={{ color: theme.colors.warning }}
       >
-        {/* Cerrar */}
-        <button
+        {message}
+      </Text>
+
+      <S.Actions>
+        <Button
+          fullWidth
           onClick={onCancel}
-          className="absolute top-4 right-4 hover:opacity-80"
+          style={{
+            backgroundColor: theme.colors.primaryDark,
+            color: "#ffffff",
+          }}
         >
-          <X size={20} color={theme.colors.primaryDark} />
-        </button>
-
-        {/* Icono de advertencia */}
-        <div className="mb-4 flex justify-center">
-          <AlertTriangle size={48} color={theme.colors.warning} />
-        </div>
-
-        {/* Mensaje */}
-        <Text
-          variant="body"
-          className="mb-6 text-center text-lg"
-          style={{ color: theme.colors.warning }}
+          {cancelLabel}
+        </Button>
+        <Button
+          fullWidth
+          onClick={onConfirm}
+          style={{
+            backgroundColor: theme.colors.warning,
+            color: "#ffffff",
+          }}
         >
-          {message}
-        </Text>
-
-        {/* Botones */}
-        <div className="flex gap-4">
-          {/* Cancelar: botón azul oscuro */}
-          <Button
-            fullWidth
-            onClick={onCancel}
-            style={{
-              backgroundColor: theme.colors.primaryDark,
-              color: "#ffffff",
-            }}
-          >
-            {cancelLabel}
-          </Button>
-          {/* Confirmar: botón amarillo */}
-          <Button
-            fullWidth
-            onClick={onConfirm}
-            style={{
-              backgroundColor: theme.colors.warning,
-              color: "#ffffff",
-            }}
-          >
-            {confirmLabel}
-          </Button>
-        </div>
-      </div>
-    </div>
+          {confirmLabel}
+        </Button>
+      </S.Actions>
+    </BaseModal>
   );
 }

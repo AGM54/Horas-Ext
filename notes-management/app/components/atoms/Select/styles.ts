@@ -1,28 +1,21 @@
-// app/components/atoms/Select/styles.ts
 import styled from "@emotion/styled";
 
 export const StyledSelect = styled.select`
-  background: transparent;
-  color: white;
+  width: 100%;
   padding: 0.5rem;
-  border: 1px solid white;
-  border-radius: 0.25rem;
-  appearance: none;
+  border-radius: 0.375rem;
+  border: 1.5px solid ${({ theme }) => theme.colors.primaryDark};
+  background-color: white;
+  color: ${({ theme }) => theme.colors.primaryDark};
+  font-size: 1rem;
   outline: none;
-  cursor: pointer;
 
-  /* Estilo para cada opción dentro del dropdown */
-  & > option {
-    background: white;
-    color: black;
+  &:focus {
+    border-color: ${({ theme }) => theme.colors.primary};
+    box-shadow: 0 0 0 2px rgba(0, 64, 128, 0.2); /* tono suave */
   }
 
-  /* Cuando navegas la lista con teclado o hover */
-  & > option:checked,
-  & > option:focus,
-  & > option:hover {
-    background: #f0f0f0;
+  option {
     color: black;
   }
 `;
-

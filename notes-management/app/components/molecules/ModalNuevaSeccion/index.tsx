@@ -1,46 +1,76 @@
-// src/components/organisms/ModalNuevaSeccion.tsx
-
+import React from "react";
 import { useTheme } from "@emotion/react";
 import Text from "../../atoms/Text";
-import NuevaSeccionForm from "../FormNuevaSeccion";
+import Select from "../../atoms/Select";
+import Button from "../../atoms/Button";
+import BaseModal from "../BaseModal/BaseModal";
 
 interface Props {
-	onClose: () => void;
+  isOpen: boolean;
+  onClose: () => void;
+  onSubmit: () => void;
+  cursos: string[];
+  cursoSeleccionado: string;
+  setCursoSeleccionado: (valor: string) => void;
+  onRegistrarNuevoCurso: () => void;
 }
 
-export default function ModalNuevaSeccion({ onClose }: Props) {
-	const theme = useTheme()
-	return (
-		<div
-			className="fixed inset-0 flex items-center justify-center z-50"
-			style={{
-				backgroundColor: "rgba(0, 0, 0, 0.6)", // Fondo oscuro translúcido
-			}}
-		>
-			<div
-				className="rounded-xl shadow-lg w-full max-w-md p-6 relative"
-				style={{
-					backgroundColor: "#ffffff", // Blanco sólido sin opacidad
-					boxShadow: "0 4px 20px rgba(0, 0, 0, 0.15)",
-				}}
-			>
-				{/* Botón de cerrar */}
-				<button
-					onClick={onClose}
-					className="absolute top-4 right-4 text-lg font-bold hover:opacity-80"
-					style={{ color: theme.colors.orange }}
-				>
-					✕
-				</button>
+export default function ModalNuevaSeccion({
+  isOpen,
+  onClose,
+  onSubmit,
+  cursos,
+  cursoSeleccionado,
+  setCursoSeleccionado,
+  onRegistrarNuevoCurso,
+}: Props) {
+  const theme = useTheme();
 
-				{/* Título */}
-				<Text variant="H4" color="primaryDark">
-					Nueva sección
-				</Text>
+  return (
+    <BaseModal isOpen={isOpen} onClose={onClose}>
+      {/* Título */}
+      <Text variant="H4" color="primaryDark" className="mb-4">
+        Nueva sección
+      </Text>
 
-				{/* Formulario */}
-				<NuevaSeccionForm />
-			</div>
-		</div>
-	);
+      {/* Label + Selector de curso */}
+      <div className="mb-4">
+        <Text variant="body" color="primaryDark" className="mb-1">
+          Curso:
+        </Text>
+        <Select
+          value={cursoSeleccionado}
+          onChange={(e) => setCursoSeleccionado(e.target.value)}
+          options={["Seleccionar", ...cursos]}
+          className="w-full"
+        />
+      </div>
+
+      {/* Botón: Registrar nuevo curso */}
+      <Button
+        fullWidth
+        onClick={onRegistrarNuevoCurso}
+        style={{
+          backgroundColor: theme.colors.primaryDark,
+          border: `1px solid ${theme.colors.primaryDark}`,
+          color: theme.colors.white,
+        }}
+        className="mb-3"
+      >
+        Registrar nuevo curso
+      </Button>
+
+      {/* Botón: Crear sección */}
+      <Button
+        fullWidth
+        onClick={onSubmit}
+        style={{
+          backgroundColor: theme.colors.primaryDark,
+          color: theme.colors.white,
+        }}
+      >
+        Crear
+      </Button>
+    </BaseModal>
+  );
 }

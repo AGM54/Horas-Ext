@@ -3,7 +3,7 @@ import { useTheme } from "@emotion/react";
 import Text from "../../atoms/Text";
 import Button from "../../atoms/Button";
 import { CheckCircle } from "lucide-react";
-import * as S from "./styles";
+import BaseModal from "../BaseModal/BaseModal";
 
 interface Props {
   isOpen: boolean;
@@ -21,27 +21,22 @@ export default function ModalMessage({
   icon,
 }: Props) {
   const theme = useTheme();
-  if (!isOpen) return null;
 
   return (
-    <S.Overlay>
-      <S.Dialog>
-        <S.CloseButton onClick={onClose}>×</S.CloseButton>
-
-        <S.IconWrapper>
+    <BaseModal isOpen={isOpen} onClose={onClose}>
+      <div className="flex flex-col items-center text-center space-y-4">
+        <div>
           {icon ?? <CheckCircle size={48} color={theme.colors.primaryDark} />}
-        </S.IconWrapper>
+        </div>
 
-        <Text variant="H4" color="primaryDark" textAlign="center">
+        <Text variant="H4" color="primaryDark">
           {message}
         </Text>
 
-        <S.Actions>
-          <Button fullWidth variant="primary" onClick={onClose}>
-            {confirmLabel}
-          </Button>
-        </S.Actions>
-      </S.Dialog>
-    </S.Overlay>
+        <Button fullWidth variant="primary" onClick={onClose}>
+          {confirmLabel}
+        </Button>
+      </div>
+    </BaseModal>
   );
 }
