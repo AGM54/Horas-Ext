@@ -24,6 +24,7 @@ export const ModalContainer = styled.div`
 export const CloseRow = styled.div`
 	display: flex;
 	justify-content: flex-end;
+	margin-bottom: 5px;
 `;
 
 export const CloseButton = styled.button<{ theme: any }>`
