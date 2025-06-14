@@ -1,8 +1,10 @@
 import { useState } from "react";
 import { PlusCircle } from "lucide-react";
+import { useTheme } from "@emotion/react";
 import components from "~/components";
 import { Container, Content } from "./styles";
 import ModalNuevoCurso from "~/components/molecules/ModalNuevoCurso";
+import Select from "~/components/atoms/Select";
 
 const {
   Text,
@@ -12,9 +14,11 @@ const {
 } = components;
 
 export default function CursosPage() {
+  const theme = useTheme();
   const [modalSeccionAbierto, setModalSeccionAbierto] = useState(false);
   const [modalCursoAbierto, setModalCursoAbierto] = useState(false);
   const [cursoSeleccionado, setCursoSeleccionado] = useState("");
+  const [filtroCiclo, setFiltroCiclo] = useState("Ciclo Actual");
 
   const mockCursos = [
     { id: "1", nombre: "Curso de Matemática" },
@@ -55,7 +59,7 @@ export default function CursosPage() {
               onClick={() => setModalSeccionAbierto(true)}
               style={{ whiteSpace: "nowrap", paddingLeft: "10px", paddingRight: "10px" }}
             >
-              <PlusCircle className="h-4 w-4" />
+              <PlusCircle className="h-4 w-4 text-primaryDark" />
               Crear sección
             </Button>
           </div>
@@ -65,11 +69,13 @@ export default function CursosPage() {
       <div className="flex-1 bg-[#203d5e] text-white p-6 relative h-full w-full">
         {/* Filtros */}
         <div className="flex items-center justify-between mb-4">
-          <div className="flex items-center gap-6">
-            <select className="bg-transparent border-b border-gray-400 text-white">
-              <option value="actual">Ciclo Actual</option>
-              <option value="anterior">Ciclo Anterior</option>
-            </select>
+          <div className="flex items-center gap-6 w-64">
+            <Select
+              value={filtroCiclo}
+              onChange={(e) => setFiltroCiclo(e.target.value)}
+              options={["Ciclo Actual", "Ciclo Anterior"]}
+              className="w-full"
+            />
           </div>
         </div>
 
