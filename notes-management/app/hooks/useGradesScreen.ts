@@ -65,7 +65,6 @@ export default function useNotesScreen() {
 	// Course selection handlers
 	const handleCourseSelect = (courseName: string) => {
 		dispatch(setSelectedCourse(courseName));
-		setMenuAbierto(false);
 	};
 
 	const toggleMenu = () => setMenuAbierto(prev => !prev);
