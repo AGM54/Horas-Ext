@@ -1,4 +1,3 @@
-// app/modules/browse/pages/Estudiantes/DetalleEstudiante/index.tsx
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { ArrowLeft, XCircle, Pencil } from "lucide-react";
@@ -8,6 +7,7 @@ import Table from "~/components/organisms/Table";
 import ModalConfirm from "~/components/molecules/ModalConfirm";
 import ModalMessage from "~/components/molecules/ModalMessage";
 import ModalRegister from "~/components/molecules/ModalRegister";
+import Select from "~/components/atoms/Select"; 
 import { mockStudents, type Student } from "~/mocks/students";
 import {
   Container,
@@ -82,7 +82,6 @@ export default function DetalleEstudiante() {
   return (
     <>
       <Container>
-        {/* Barra superior */}
         <HeaderBar>
           <BackButton onClick={() => navigate(-1)}>
             <ArrowLeft size={20} />
@@ -93,7 +92,6 @@ export default function DetalleEstudiante() {
           </Text>
         </HeaderBar>
 
-        {/* Datos básicos */}
         <InfoSection>
           <div>
             <Text variant="H4">
@@ -120,7 +118,6 @@ export default function DetalleEstudiante() {
           </ActionsGroup>
         </InfoSection>
 
-        {/* Tabla de notas */}
         <Table
           headers={headers}
           data={data.map((cells) => ({ cells }))}
@@ -131,7 +128,6 @@ export default function DetalleEstudiante() {
         />
       </Container>
 
-      {/* Modal de confirmación */}
       <ModalConfirm
         isOpen={confirmOpen}
         message="¿Está seguro que desea deshabilitar el usuario?"
@@ -141,7 +137,6 @@ export default function DetalleEstudiante() {
         confirmLabel="Sí, desactivar"
       />
 
-      {/* Modal de éxito tras desactivar */}
       <ModalMessage
         isOpen={msgOpen}
         message="Deshabilitado con éxito"
@@ -149,7 +144,6 @@ export default function DetalleEstudiante() {
         confirmLabel="Ok"
       />
 
-      {/* Modal para registrar en curso */}
       <ModalRegister
         isOpen={registerOpen}
         onClose={() => setRegisterOpen(false)}
@@ -157,9 +151,7 @@ export default function DetalleEstudiante() {
         cancelLabel="Cancelar"
         confirmLabel="Agregar"
       >
-        {/* Formulario con labels y selects en azul */}
         <div className="space-y-4">
-          {/* Curso */}
           <div className="flex items-center gap-3">
             <Text
               variant="body"
@@ -171,23 +163,14 @@ export default function DetalleEstudiante() {
             >
               Curso:
             </Text>
-            <select
+            <Select
               value={selectedCurso}
               onChange={(e) => setSelectedCurso(e.target.value)}
-              className="flex-1 block rounded px-3 py-2"
-              style={{
-                border: `1px solid ${theme.colors.primaryDark}`,
-                color: theme.colors.primaryDark,
-              }}
-            >
-              <option value="">Seleccionar…</option>
-              <option value="espanol">Español</option>
-              <option value="matematicas">Matemáticas</option>
-              {/* …más cursos */}
-            </select>
+              options={["Seleccionar…", "Español", "Matemáticas"]}
+              className="flex-1"
+            />
           </div>
 
-          {/* Ciclo */}
           <div className="flex items-center gap-3">
             <Text
               variant="body"
@@ -199,20 +182,12 @@ export default function DetalleEstudiante() {
             >
               Ciclo:
             </Text>
-            <select
+            <Select
               value={selectedCiclo}
               onChange={(e) => setSelectedCiclo(e.target.value)}
-              className="flex-1 block rounded px-3 py-2"
-              style={{
-                border: `1px solid ${theme.colors.primaryDark}`,
-                color: theme.colors.primaryDark,
-              }}
-            >
-              <option value="">Seleccionar…</option>
-              <option value="2022:1">2022:1</option>
-              <option value="2022:2">2022:2</option>
-              {/* …más ciclos */}
-            </select>
+              options={["Seleccionar…", "2022:1", "2022:2"]}
+              className="flex-1"
+            />
           </div>
         </div>
       </ModalRegister>

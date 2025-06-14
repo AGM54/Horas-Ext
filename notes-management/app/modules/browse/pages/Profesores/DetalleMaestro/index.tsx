@@ -11,6 +11,9 @@ import ModalConfirm from "~/components/molecules/ModalConfirm";
 import ModalMessage from "~/components/molecules/ModalMessage";
 import { mockMaestros, type Maestro } from "~/mocks/maestros";
 
+import SafeInput from "~/components/molecules/SafeInput";
+import Select from "~/components/atoms/Select";
+
 import {
   Container,
   HeaderBar,
@@ -34,23 +37,18 @@ export default function DetalleMaestro() {
   const [newCiclo, setNewCiclo] = useState("");
   const [registerOpen, setRegisterOpen] = useState(false);
 
-  // Para desactivar maestro
   const [deactConfirmOpen, setDeactConfirmOpen] = useState(false);
   const [deactMsgOpen, setDeactMsgOpen] = useState(false);
 
-  // Para eliminar una materia
   const [deleteConfirmOpen, setDeleteConfirmOpen] = useState(false);
   const [deleteMsgOpen, setDeleteMsgOpen] = useState(false);
   const [toDeleteMat, setToDeleteMat] = useState("");
   const [toDeleteCiclo, setToDeleteCiclo] = useState("");
 
-
   useEffect(() => {
     const m = mockMaestros.find((x) => x.id === id) || null;
     setMaestro(m);
-    setMateriasList(
-      m ? m.materias.map((mat) => ({ mat, ciclo: "Actual" })) : []
-    );
+    setMateriasList(m ? m.materias.map((mat) => ({ mat, ciclo: "Actual" })) : []);
   }, [id]);
 
   if (!maestro) {
@@ -61,26 +59,20 @@ export default function DetalleMaestro() {
     );
   }
 
-
   const handleRemoveClick = (mat: string, ciclo: string) => {
     setToDeleteMat(mat);
     setToDeleteCiclo(ciclo);
     setDeleteConfirmOpen(true);
   };
 
-
   const handleDeleteConfirm = () => {
     setMateriasList((prev) =>
-      prev.filter(
-        (item) =>
-          !(item.mat === toDeleteMat && item.ciclo === toDeleteCiclo)
-      )
+      prev.filter((item) => !(item.mat === toDeleteMat && item.ciclo === toDeleteCiclo))
     );
     setDeleteConfirmOpen(false);
     setDeleteMsgOpen(true);
   };
 
-  // 4) Construcción de datos para la tabla
   const headers = ["Materia", "Ciclo", "Acciones"];
   const data = materiasList.map(({ mat, ciclo }) => [
     mat,
@@ -94,19 +86,14 @@ export default function DetalleMaestro() {
     </button>,
   ]);
 
-  // 5) Agregar materia
   const handleAgregar = () => {
     if (!newMateria || !newCiclo) return;
-    setMateriasList((prev) => [
-      ...prev,
-      { mat: newMateria, ciclo: newCiclo },
-    ]);
+    setMateriasList((prev) => [...prev, { mat: newMateria, ciclo: newCiclo }]);
     setRegisterOpen(false);
     setNewMateria("");
     setNewCiclo("");
   };
 
-  // 6) Desactivar maestro
   const handleDesactivar = () => {
     setDeactConfirmOpen(false);
     setDeactMsgOpen(true);
@@ -115,7 +102,6 @@ export default function DetalleMaestro() {
   return (
     <>
       <Container>
-        {/* Header */}
         <HeaderBar>
           <BackButton onClick={() => navigate(-1)}>
             <ArrowLeft size={20} />
@@ -127,7 +113,6 @@ export default function DetalleMaestro() {
         </HeaderBar>
 
         <Content>
-          {/* Info + acciones */}
           <InfoSection>
             <div>
               <Text variant="H4">
@@ -154,7 +139,6 @@ export default function DetalleMaestro() {
             </ActionsGroup>
           </InfoSection>
 
-          {/* Tabla de materias */}
           <div className="overflow-x-auto max-w-full">
             <Table
               headers={headers}
@@ -170,7 +154,6 @@ export default function DetalleMaestro() {
         </Content>
       </Container>
 
-      {/* Modal “Agregar Materia” */}
       <ModalRegister
         isOpen={registerOpen}
         onClose={() => setRegisterOpen(false)}
@@ -179,35 +162,27 @@ export default function DetalleMaestro() {
         confirmLabel="Agregar"
       >
         <div className="space-y-4">
-          <div>
-            <Text variant="body" color="primaryDark">
-              Materia:
-            </Text>
-            <input
-              type="text"
-              className="mt-1 block w-full border rounded px-3 py-2"
-              value={newMateria}
-              onChange={(e) => setNewMateria(e.target.value)}
-            />
-          </div>
+          <SafeInput
+            label="Materia:"
+            value={newMateria}
+            onChange={(e) => setNewMateria(e.target.value)}
+            placeholder="Nombre de la materia"
+          />
+
           <div>
             <Text variant="body" color="primaryDark">
               Ciclo:
             </Text>
-            <select
-              className="mt-1 block w-full border rounded px-3 py-2"
+            <Select
               value={newCiclo}
               onChange={(e) => setNewCiclo(e.target.value)}
-            >
-              <option value="">Seleccionar…</option>
-              <option value="2022:1">2022:1</option>
-              <option value="2022:2">2022:2</option>
-            </select>
+              options={["Seleccionar…", "2022:1", "2022:2"]}
+              className="w-full"
+            />
           </div>
         </div>
       </ModalRegister>
 
-      {/* Modal de confirmación “Desactivar Maestro” */}
       <ModalConfirm
         isOpen={deactConfirmOpen}
         message="¿Está seguro que desea desactivar este maestro?"
@@ -217,7 +192,6 @@ export default function DetalleMaestro() {
         confirmLabel="Sí, desactivar"
       />
 
-      {/* Modal mensaje éxito desactivar */}
       <ModalMessage
         isOpen={deactMsgOpen}
         message="Maestro desactivado con éxito"
@@ -225,7 +199,6 @@ export default function DetalleMaestro() {
         confirmLabel="Ok"
       />
 
-      {/* Modal de confirmación “Eliminar Materia” */}
       <ModalConfirm
         isOpen={deleteConfirmOpen}
         message={`¿Está seguro que desea eliminar la materia "${toDeleteMat}" del ciclo "${toDeleteCiclo}"?`}
@@ -235,7 +208,6 @@ export default function DetalleMaestro() {
         confirmLabel="Sí, eliminar"
       />
 
-      {/* Modal mensaje éxito eliminar */}
       <ModalMessage
         isOpen={deleteMsgOpen}
         message="Materia eliminada con éxito"

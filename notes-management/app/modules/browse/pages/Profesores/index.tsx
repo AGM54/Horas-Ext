@@ -1,14 +1,12 @@
-// app/modules/browse/pages/Maestros/index.tsx
-
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { PlusCircle } from "lucide-react";
 import { useTheme } from "@emotion/react";
 
-import Text      from "~/components/atoms/Text";
-import Table     from "~/components/organisms/Table";
-import Button    from "~/components/atoms/Button";
-import Select    from "~/components/atoms/Select";
+import Text from "~/components/atoms/Text";
+import Table from "~/components/organisms/Table";
+import Button from "~/components/atoms/Button";
+import Select from "~/components/atoms/Select";
 import SafeInput from "~/components/molecules/SafeInput";
 import ModalForm from "~/components/molecules/ModalForm";
 import ModalMessage from "~/components/molecules/ModalMessage";
@@ -40,8 +38,8 @@ export default function MaestrosPage() {
 
   const headers = ["Maestro", "Grado", "Materias"];
   const filtered = list
-    .filter(m => gradoFilter === "Todos" || m.grado === gradoFilter)
-    .filter(m => cicloFilter === "Actual"); 
+    .filter((m) => gradoFilter === "Todos" || m.grado === gradoFilter)
+    .filter((m) => cicloFilter === "Actual"); // simulación de filtro
 
   const handleCrearMaestro = () => {
     console.log("Nuevo maestro:", { nombre: nuevoNombre, correo: nuevoCorreo });
@@ -73,37 +71,34 @@ export default function MaestrosPage() {
             </Button>
           </div>
 
-          {/* Filtros */}
-          <div className="flex gap-4 mb-4 flex-wrap">
-            <div>
-              <Text variant="body">Grado</Text>
-              <Select
-                value={gradoFilter}
-                onChange={e => setGradoFilter(e.target.value)}
-                options={["Todos", "Primero Básico", "Segundo Básico"]}
-              />
-            </div>
-            <div>
-              <Text variant="body">Ciclo</Text>
-              <Select
-                value={cicloFilter}
-                onChange={e => setCicloFilter(e.target.value)}
-                options={["Actual", "Anterior"]}
-              />
-            </div>
-          </div>
+{/* Filtros */}
+<div className="flex gap-4 mb-4 flex-wrap">
+  <div>
+    <Text variant="body" color="primaryDark">Grado</Text>
+    <Select
+      value={gradoFilter}
+      onChange={(e) => setGradoFilter(e.target.value)}
+      options={["Todos", "Primero Básico", "Segundo Básico"]}
+    />
+  </div>
+  <div>
+    <Text variant="body" color="primaryDark">Ciclo</Text>
+    <Select
+      value={cicloFilter}
+      onChange={(e) => setCicloFilter(e.target.value)}
+      options={["Actual", "Anterior"]}
+    />
+  </div>
+</div>
+
 
           {/* Tabla */}
           <div className="overflow-x-auto max-w-full">
             <Table
               headers={headers}
               data={filtered}
-              getRowValues={m => [
-                m.nombre,
-                m.grado,
-                m.materias.join(", "),
-              ]}
-              onRowPress={m => navigate(`/dashboard/profesores/${m.id}`)}
+              getRowValues={(m) => [m.nombre, m.grado, m.materias.join(", ")]}
+              onRowPress={(m) => navigate(`/dashboard/profesores/${m.id}`)}
               cellHeight={48}
               containerBgColor={theme.colors.primaryDark}
               containerBorderRadius={`${theme.sizes.xs}px`}
@@ -124,13 +119,13 @@ export default function MaestrosPage() {
         <SafeInput
           label="Nombre"
           value={nuevoNombre}
-          onChange={e => setNuevoNombre(e.target.value)}
+          onChange={(e) => setNuevoNombre(e.target.value)}
           className="mb-4"
         />
         <SafeInput
           label="Correo"
           value={nuevoCorreo}
-          onChange={e => setNuevoCorreo(e.target.value)}
+          onChange={(e) => setNuevoCorreo(e.target.value)}
           className="mb-6"
         />
       </ModalForm>

@@ -2,6 +2,7 @@
 import React from "react";
 import Input from "../../atoms/Input";
 import Text from "../../atoms/Text";
+import styled from "@emotion/styled";
 
 interface Props extends React.InputHTMLAttributes<HTMLInputElement> {
   label: string;
@@ -15,27 +16,31 @@ export default function SafeInput({
 }: Props) {
   return (
     <div className={className}>
-      {/* Label always black */}
       <Text variant="body" color="primaryDark">
         {label}
       </Text>
 
-      {/* White background, black text, black placeholder */}
-      <Input
-        {...props}
-        className="
-          mt-1
-          w-full
-          bg-white
-          text-black
-          placeholder-black
-          border
-          border-gray-300
-          rounded
-          px-3
-          py-2
-        "
-      />
+      <StyledInput {...props} />
     </div>
   );
 }
+
+const StyledInput = styled(Input)`
+  width: 100%;
+  margin-top: 0.25rem;
+  padding: 0.5rem 0.75rem;
+  background-color: #ffffff;
+  color: ${({ theme }) => theme.colors.primaryDark};
+  border: 2px solid ${({ theme }) => theme.colors.primaryDark};
+  border-radius: 0.375rem;
+  outline: none;
+  transition: border-color 0.3s ease;
+
+  &::placeholder {
+    color: #6b7280; /* placeholder-gray-500 */
+  }
+
+  &:focus {
+    border-color: ${({ theme }) => theme.colors.primary};
+  }
+`;
