@@ -1,18 +1,24 @@
+
 import styled from "@emotion/styled";
 
 export const StyledSelect = styled.select`
   width: 100%;
-  padding: 0.5rem;
+  padding: 0.5rem 0.75rem;
   border-radius: 0.375rem;
-  border: 1.5px solid ${({ theme }) => theme.colors.primaryDark};
+  border: 2px solid ${({ theme }) => theme.colors.primaryDark};
   background-color: white;
   color: ${({ theme }) => theme.colors.primaryDark};
   font-size: 1rem;
   outline: none;
+  transition: border-color 0.3s;
 
   &:focus {
     border-color: ${({ theme }) => theme.colors.primary};
-    box-shadow: 0 0 0 2px rgba(0, 64, 128, 0.2); /* tono suave */
+    box-shadow: none; /*
+  }
+
+  &::placeholder {
+    color: #6b7280;
   }
 
   option {

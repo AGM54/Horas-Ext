@@ -1,102 +1,105 @@
-import { mockCoursesData } from "@mocks/notes/mock";
-import React, { useEffect, useState } from "react";
-import { ChevronDown, PencilLine, PlusCircle } from "lucide-react";
-import components from "~/components";
-import type { CourseData, StudentGrade } from "~/interfaces/grades";
+import React, { useState } from "react";
+import { PencilLine, PlusCircle, ChevronDown } from "lucide-react";
 import { useTheme } from "@emotion/react";
+import components from "~/components";
 import useNotesScreen from "~/hooks/useGradesScreen";
+import Select from "~/components/atoms/Select";
 import { NotasContainer, NotasContent } from "./styles";
+import type { StudentGrade } from "~/interfaces/grades";
+
 const { Text, Button, Table } = components;
 
 export default function NotasPage() {
-	const {
-		// State
-		courses,
-		selectedCourse,
-		menuAbierto,
-		currentCourseData,
-		studentsWithTotal,
-		isLoading,
+  const theme = useTheme();
 
-		// Actions
-		handleCourseSelect,
-		toggleMenu,
+  const {
+    // State
+    courses,
+    selectedCourse,
+    menuAbierto,
+    currentCourseData,
+    studentsWithTotal,
+    isLoading,
 
-		// Table functions
-		getTableHeaders,
-		getRowValues,
-		handleRowPress
-	} = useNotesScreen();
+    // Actions
+    handleCourseSelect,
+    toggleMenu,
 
-	const theme = useTheme()
+    // Table functions
+    getTableHeaders,
+    getRowValues,
+    handleRowPress,
+  } = useNotesScreen();
 
+  return (
+    <NotasContainer>
+      <NotasContent>
+        {/* Header */}
+        <div className="flex justify-between items-center mb-4">
+          <Text variant="H3">Notas</Text>
 
-	return (
-		<NotasContainer>
-			<NotasContent>
-				{/* Header */}
-				<div className="flex justify-between items-center mb-4">
-					<Text variant="H3">Notas</Text>
+          {/* Botones */}
+          <div className="flex gap-4">
+            <Button
+              variant="secondary"
+              className="flex items-center gap-2"
+              style={{
+                whiteSpace: "nowrap",
+                paddingLeft: "10px",
+                paddingRight: "10px",
+              }}
+            >
+              <PencilLine className="h-4 w-4 text-primaryDark" />
+              Editar Notas
+            </Button>
 
-					{/* Botones */}
-					<div className="flex gap-4">
-						<Button variant="secondary" className="flex items-center gap-2" style={{ whiteSpace: 'nowrap', paddingLeft: '10px', paddingRight: '10px' }}>
-							<PencilLine className="h-4 w-4" style={{ color: theme.colors.primaryDark }} />
-							Editar Notas
-						</Button>
-						<Button variant="secondary" className="flex items-center gap-2" style={{ whiteSpace: 'nowrap', paddingLeft: '10px', paddingRight: '10px' }}>
-							<PlusCircle className="h-4 w-4" style={{ color: theme.colors.primaryDark }} />
-							Nueva Actividad
-						</Button>
-					</div>
-				</div>
+            <Button
+              variant="secondary"
+              className="flex items-center gap-2"
+              style={{
+                whiteSpace: "nowrap",
+                paddingLeft: "10px",
+                paddingRight: "10px",
+              }}
+            >
+              <PlusCircle className="h-4 w-4 text-primaryDark" />
+              Nueva Actividad
+            </Button>
+          </div>
+        </div>
 
-				{/* Selección del Curso */}
-				<div className="mb-6">
-					<Text variant="body">Curso:</Text>
-					<div className="relative inline-block w-64 mt-2">
-						<button
-							className="w-full border border-white bg-transparent text-left py-2 px-4 rounded flex items-center justify-between cursor-pointer"
-							onClick={toggleMenu}
-						>
-							<span>{selectedCourse}</span>
-							<ChevronDown className="h-4 w-4 text-white" />
-						</button>
+        {/* Selección del Curso */}
+        <div className="mb-6">
+          <Text variant="body" color="primaryDark">
+            Curso:
+          </Text>
 
-						{menuAbierto && (
-							<ul className="absolute mt-1 w-full rounded bg-white text-black shadow-lg z-50">
-								{courses.map((curso) => (
-									<li
-										key={curso}
-										className="px-4 py-2 hover:bg-[#dbeafe] cursor-pointer"
-										onClick={() => {
-											handleCourseSelect(curso);
-											toggleMenu()
-										}}
-									>
-										{curso}
-									</li>
-								))}
-							</ul>
-						)}
-					</div>
-				</div>
+          <div className="mt-2 w-64">
+    <Select
+  value={selectedCourse ?? "Seleccionar"}
+  onChange={(e) => handleCourseSelect(e.target.value)}
+  options={["Seleccionar", ...courses]}
+  className="w-full"
+/>
 
-				{studentsWithTotal.length > 0 && (
-					<Table
-						headers={getTableHeaders()}
-						data={studentsWithTotal as StudentGrade[]}
-						onRowPress={handleRowPress as (item: unknown, index?: number) => void}
-						getRowValues={getRowValues as (item: unknown, index: number) => React.ReactNode[]}
-						maxHeight={'70vh'}
-						maxWidth="85vw"
-						alignSelf="center"
-						containerBgColor="white"
-						containerBorderRadius={`${theme.sizes.md}px`}
-					/>
-				)}
+          </div>
+        </div>
 
-			</NotasContent>
-		</NotasContainer>
-	);
+        {/* Tabla de estudiantes */}
+        {studentsWithTotal.length > 0 && (
+          <Table
+            headers={getTableHeaders()}
+            data={studentsWithTotal as StudentGrade[]}
+            onRowPress={handleRowPress as (item: unknown, index?: number) => void}
+            getRowValues={getRowValues as (item: unknown, index: number) => React.ReactNode[]}
+            maxHeight={"70vh"}
+            maxWidth="85vw"
+            alignSelf="center"
+            containerBgColor="white"
+            containerBorderRadius={`${theme.sizes.md}px`}
+          />
+        )}
+      </NotasContent>
+    </NotasContainer>
+  );
 }
